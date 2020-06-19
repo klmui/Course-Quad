@@ -18,4 +18,6 @@ git push origin sample-branch-name
 
 5. Submit and pull request and try to get at least one other person to approve your changes before clicking the button that says 'Merge'.
 
-6. Delete remote branch on GitHub after merging. Delete your local branch by using the command: 'git branch -d sample-branch-name'.
+6. Delete remote branch on GitHub after merging. 
+
+7. Delete your local branch by using the commands: 'git checkout master', 'git branch -D sample-branch-name', 'git pull orign master'.
