@@ -25,32 +25,48 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
-    <div class="container">
-      <a class="navbar-brand shadow-sm " href="#">
+    <!-- top nav bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger sticky-top">
+      <a href="#" class="btn btn-success" id="menu-toggle">Toggle Menu</a>
+      <a class="navbar-brand shadow-sm ml-4" href="/">
         <i class="fas fa-university"></i>
         Course Quad
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item" id="courses">
-            <a class="nav-link" href="/">Courses</a>
-          </li>
-          <li class="nav-item" id="instructors">
-            <a class="nav-link" href="#">Instructors</a>
-          </li>
-          <li class="nav-item" id="about">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item" id="contact">
-            <a class="nav-link" href="#">Contact</a>
-          </li>
+      <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item" id="courses">
+              <a class="nav-link" href="/">Courses</a>
+            </li>
+            <li class="nav-item" id="instructors">
+              <a class="nav-link" href="#">Instructors</a>
+            </li>
+            <li class="nav-item" id="about">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item" id="contact">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div id="wrapper">
+
+      <!-- side bar -->
+      <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li><a href="#">Account</a></li>
+          <li><a href="#">Settings</a></li>
+          <li><a href="#">Logout</a></li>
         </ul>
       </div>
-    </div>
-  </nav>
+
+      <!-- page content -->
+      <div id="page-content-wrapper">
 
    
