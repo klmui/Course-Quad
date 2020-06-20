@@ -34,11 +34,14 @@ node app.js
 ```
 http://localhost:3000/
 ```
-
+5. Installing dependencies (optional note)
+```
+npm install <dependency-name> --save
+```
 ## Built With
 * [Bootstrap 4](https://getbootstrap.com/docs/4.3/getting-started/introduction/) - the frontend library used
 * [Node.js](https://nodejs.org/en/) - server environment
-* [Express](https://expressjs.com/) - Node.js framework for handling server-side logic
+* [Express](https://expressjs.com/), [Express Node Module](https://www.npmjs.com/package/express) - Node.js framework for handling server-side logic
 
 ## Contributing
 Please read [CONTRIBUTING.md](https://github.com/klmui/Course-Quad/blob/master/CONTRIBUTING.md) for how to contribute and send a pull request.
