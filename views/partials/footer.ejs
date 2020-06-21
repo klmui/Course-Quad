@@ -14,13 +14,24 @@
       <!-- margin script to keep page content + side nav bar from overlapping with fixed top nav bar -->
       <script>
         $('#wrapper').css('margin-top', $('.navbar').height() + 15);
-
+        
         // more responsiveness
-        if (screen.width <= 768) {
+        if (screen.width <= 768 || window.innerWidth <= 991) {
           $('#topContainer').removeClass('container');
+          $('#menu-toggle').addClass('hidden');
         } else {
           $('#topContainer').addClass('container');
         } 
+      </script>
+
+      <!-- toggle hidden class for sidebar hamburger toggle -->
+      <script>
+        $(document).ready(function() {
+          $('#menu-toggle').on('click', function() {
+            $(this).toggleClass('hidden');
+
+          });
+        });
       </script>
 
       <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -52,6 +52,42 @@
   background: #16A085;
 }
 
+/* hamburger toggle for sidebar */
+#menu-toggle {
+  width: 56px;
+  height: 40px;
+}
+#menu-toggle span {
+  width: 80%;
+  height: 2px;
+  margin: 0 auto;
+  display: block;
+  background: #555;
+  transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
+}
+/* rotate bars if sidebar is open */
+#menu-toggle span:first-of-type {
+  /* rotate first bar */
+  transform: rotate(45deg) translate(11px, 8px);
+}
+#menu-toggle span:nth-of-type(2) {
+  /* second bar not visible */
+  opacity: 0;
+}
+#menu-toggle span:last-of-type {
+  /* rotate third bar */
+  transform: rotate(-45deg) translate(-6px, 8px);
+}
+/* if toggle has active class, then parallel state */
+#menu-toggle.hidden span {
+  /* no rotation */
+  transform: none;
+  /* all bars are visible */
+  opacity: 1;
+  margin: 5px auto;
+}
+
+
 /* close sidebar by default on phones - behavior is opposite of desktop */
 @media (max-width: 768px) {
   /* opposite of the actions above so menuDisplayed actually means when the menu is closed */
