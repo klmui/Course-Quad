@@ -52,18 +52,38 @@
   background: #16A085;
 }
 
-/* close sidebar by default and hide logo */
+/* close sidebar by default on phones - behavior is opposite of desktop */
 @media (max-width: 768px) {
-  /* #sidebar {
-      margin-left: -250px;
+  /* opposite of the actions above so menuDisplayed actually means when the menu is closed */
+  #wrapper.menuDisplayed #sidebar-wrapper {
+    width: 0px;
+    position: fixed;
+    transition: width 0.3s;
   }
-  #sidebar.active {
-      margin-left: 0;
-  } */
-
-  /* #logo {
-    display: none;
-  } */
   
+  #wrapper.menuDisplayed #page-content-wrapper {
+    padding-left: 0px;
+    transition: padding-left 0.3s;
+  }
+
+  #sidebar-wrapper {
+    z-index: 1;
+    position: absolute;
+    width: 250px;
+    height: 100%;
+    overflow-x: hidden;
+    background: #2C3E50;
+    transition: width 0.3s;
+  }
+  
+  /* main content */
+  #page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px;  
+    padding-left: 250px;
+    transition: width 0.3s;
+    transition: padding-left 0.3s;
+  }
 
 }
