@@ -3,7 +3,7 @@
   position: absolute;
   width: 0;
   height: 100%;
-  overflow-y: hidden;
+  overflow-x: hidden;
   background: #2C3E50;
   transition: width 0.3s;
 }
@@ -20,6 +20,7 @@
 /* change sidebar to display */
 #wrapper.menuDisplayed #sidebar-wrapper {
   width: 250px;
+  position: fixed;
   transition: width 0.3s;
 }
 
@@ -37,6 +38,11 @@
   text-indent: 20px;
   line-height: 40px;
 }
+.sidebar-nav li:first-of-type {
+  padding-top: 32px;
+  font-size: 20px;
+  font-weight: 600;
+}
 .sidebar-nav li a {
   display: block;
   text-decoration: none;
@@ -46,7 +52,7 @@
   background: #16A085;
 }
 
-/* close sidebar by default */
+/* close sidebar by default and hide logo */
 @media (max-width: 768px) {
   /* #sidebar {
       margin-left: -250px;
@@ -54,4 +60,10 @@
   #sidebar.active {
       margin-left: 0;
   } */
+
+  /* #logo {
+    display: none;
+  } */
+  
+
 }

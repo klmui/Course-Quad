@@ -26,13 +26,13 @@
 
 <body>
     <!-- top nav bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-danger sticky-top">
-      <a href="#" class="btn btn-success" id="menu-toggle">Toggle Menu</a>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-danger">
+      <a href="#" class="btn btn-outline-dark" id="menu-toggle">X</a>
       <a class="navbar-brand shadow-sm ml-4" href="/">
         <i class="fas fa-university"></i>
-        Course Quad
+        <span id="logo"><em>Course Quad</em></span>
       </a>
-      <div class="container">
+      <div class="" id="topContainer">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -60,9 +60,15 @@
       <!-- side bar -->
       <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
-          <li><a href="#">Account</a></li>
-          <li><a href="#">Settings</a></li>
-          <li><a href="#">Logout</a></li>
+          <li><a href="#">X Æ A-12</a></li>
+          <hr></hr>
+          <li><a href="#"><i class="fas fa-users"></i> &nbsp Study Groups (0)</a></li>
+          <li><a href="#"><i class="fas fa-bookmark"></i> &nbsp Saved Courses</a></li>
+          <li><a href="#"><i class="fas fa-pencil-alt"></i> &nbsp Course Reviews</a></li>
+          <li><a href="#"><i class="fas fa-pencil-alt"></i> &nbsp Instructor Reviews</a></li>
+          <hr></hr>
+          <li><a href="#"><i class="fas fa-cog"></i> &nbsp Settings</a></li>
+          <li><a href="#"><i class="fas fa-sign-out-alt"></i> &nbsp Logout</a></li>
         </ul>
       </div>
 
