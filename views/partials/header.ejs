@@ -65,12 +65,17 @@
       <!-- side bar -->
       <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
-          <li><a href="#" class='text-center'>X Æ A-12</a></li>
+          <li><a href="#" class='text-center' id="account">X Æ A-12</a></li>
           <hr></hr>
           <li><a href="#" id="study-groups"><i class="fas fa-users"></i> <span class="pl-2">Study Groups (0)</span></a></li>
           <li><a href="#" id="saved-courses"><i class="fas fa-bookmark"></i> <span class="pl-2">Saved Courses</span></a></li>
-          <li><a href="#" id="course-reviews"><i class="fas fa-pencil-alt"></i> <span class="pl-2">Course Reviews</span></a></li>
-          <li><a href="#" id="instructor-reviews"><i class="fas fa-pencil-alt"></i> <span class="pl-2">Instructor Reviews</span></a></li>
+          <li>
+            <a href="#reviewSubmenu" data-toggle="collapse" class="dropdown-toggle" aria-expanded="false"><i class="fas fa-pencil-alt"></i> <span class="pl-2">Reviews</span></a>
+            <ul class="collapse list-unstyled" id="reviewSubmenu">
+              <li><a href="#" id="course-reviews" class="text-center">Course Reviews</a></li>
+              <li><a href="#" id="instructor-reviews" class="text-center">Instructor Reviews</a></li>
+            </ul>
+          </li>
           <hr></hr>
           <li><a href="#" id="settings"><i class="fas fa-cog"></i> <span class="pl-2">Settings</span></a></li>
           <li><a href="/login" id="login"><i class="fas fa-sign-in-alt"></i> <span class="pl-2">Login</span></a></li>
