@@ -17,7 +17,6 @@
         
         // Bind event listener to update window size whenever the window is resized to adjust top nav bar
         $(window).on('resize', function() {
-          console.log($(window).width());
           if ($(window).width() <= 768 || $(window).width() <= 991) {
             $('#topContainer').removeClass('container');
             $('#menu-toggle').addClass('hidden');

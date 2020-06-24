@@ -3,12 +3,38 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="text-center shadow bg-light rounded">Your home for <span id="greeting"></span>!</h1>
+      <h1 class="text-center shadow bg-light rounded">Your home for <span id="greeting"><em>success</em></span>!</h1>
       
       <!-- slideshow -->
+      <div class="container">
+        <div class="jumbotron mt-0 pt-3 pb-3 text-center ml-auto mr-auto" style="height: 415px;">
+          <div id="fadingCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+            <div class="carousel-inner text-center">
+              <div class="carousel-item active" data-interval="4000">
+                <img src="https://i.insider.com/52d4580369bedd544bb245a4?width=1500&format=jpeg&auto=webp" class="d-block w-100 caraousel-img" alt="Bascom Hill">
+              </div>
+              <div class="carousel-item" data-interval="4000">
+                <img src="https://www.unr.edu/main/images/news/2017/April/Best_Study_Time_Research.jpg" class="d-block w-100 caraousel-img" alt="Kohl Center">
+              </div>
+              <div class="carousel-item" data-interval="4000">
+                <img src="https://www.slu.edu/_ldp-images/.private_ldp/a337/production/master/53b9cce6-8c47-4a4f-b72b-1855e371dfb3.jpg" class="d-block w-100 caraousel-img" alt="Observatory Hill">
+              </div>
+            </div>
+            <!-- <a class="carousel-control-prev" href="#fadingCarousel" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#fadingCarousel" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a> -->
+          </div>
+        </div>
 
+        <!-- courses -->
+        <h1>courses here</h1>
+      </div>
 
-      <!-- courses -->
     </div>
   </div>
 </div>
@@ -16,15 +42,15 @@
 <!-- script to change text -->
 <script>
   $(document).ready(function() {
-    var greetings = ['course distributions', 'course reviews', 'instructor reviews', 'study groups', 'fun statistics', 'success'];
+    var greetings = ['course distributions', 'course reviews', 'instructor reviews', 'study groups', 'fun statistics'];
 
     var counter = 0;
     var textElem = $('#greeting');
-    setInterval(change, 3000);
+    setInterval(change, 4000);
     function change() {
       textElem.fadeOut(function() {
         textElem.fadeOut(function() {
-          textElem.html(greetings[counter]);
+          textElem.html("<em>"+greetings[counter]+"</em>");
           counter++;
           if (counter >= greetings.length) { counter = 0; }
           textElem.fadeIn('slow');

@@ -2,3 +2,13 @@ body {
   font-family: 'Work Sans', sans-serif;
   background-color: #F9F7F7;
 }
+
+.carousel-item {
+  text-align: center;
+} 
+
+.caraousel-img {
+  align-content: center;
+  height: 380px;
+  width: 900px;
+}
