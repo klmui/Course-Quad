@@ -122,12 +122,14 @@
                 <input type="email" id="defaultForm-email" name="username" class="form-control validate" placeholder="johnsmith@example.com" required>
               </div>
 
-              <div class="md-form mb-4 form-group">
+              <div class="md-form form-group">
                 <i class="fas fa-lock prefix grey-text"></i>
                 <label data-error="wrong" data-success="right" for="defaultForm-pass">Password</label>
                 <input type="password" id="defaultForm-pass" name="password" class="form-control validate" required>
               </div>
-
+              
+              <!-- Not part of the form-group -->
+              <button type="button" class="btn btn-link mb-4 pl-0" >Don't have an account? Join here! (not working now due to lack of signup modal)</button>
             </div>
             <div class="modal-footer d-flex justify-content-center">
               <button class="btn btn-danger" type="submit">Login</button>
