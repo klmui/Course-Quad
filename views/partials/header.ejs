@@ -104,7 +104,7 @@
     </div>
 
     <!-- login modal -->
-    <form action="/login" method="POST">
+    <form action="/login" method="POST"></form>
       <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -116,17 +116,16 @@
               </button>
             </div>
             <div class="modal-body mx-3">
-              <div class="md-form mb-5">
+              <div class="md-form mt-4 form-group">
                 <i class="fas fa-user prefix grey-text"></i>
                 <label data-error="wrong" data-success="right" for="defaultForm-email">Username</label>
                 <input type="email" id="defaultForm-email" name="username" class="form-control validate" placeholder="johnsmith@example.com" required>
               </div>
 
-              <div class="md-form mb-4">
+              <div class="md-form mb-4 form-group">
                 <i class="fas fa-lock prefix grey-text"></i>
                 <label data-error="wrong" data-success="right" for="defaultForm-pass">Password</label>
                 <input type="password" id="defaultForm-pass" name="password" class="form-control validate" required>
-                
               </div>
 
             </div>
