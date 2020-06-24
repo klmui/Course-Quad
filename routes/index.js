@@ -14,7 +14,7 @@ router.get('/', function(req, res) {
 router.post('/login', function(req, res) {
   // get the username and password from the request (comes from the name attr of the input)
   var user = {"username": req.body.username, "password": req.body.password};
-  console.log("username:" + user.username + ", password: " + user.password);
+  console.log("username:" + user.username + ", password: " + "secret");
 
   // render the home page and change the name to the email
   res.render('index', {email: user.username});

@@ -12,3 +12,8 @@ body {
   height: 380px;
   width: 900px;
 }
+
+#loginButton {
+  width: 80%;
+  display: block;
+}

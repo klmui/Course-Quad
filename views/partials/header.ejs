@@ -96,15 +96,18 @@
         </li>
         <hr></hr>
         <li><a href="#" id="settings"><i class="fas fa-cog"></i> <span class="pl-2">Settings</span></a></li>
-        <li><a href="#" id="login" data-toggle="modal" data-target="#loginModal"><i class="fas fa-sign-in-alt"></i>
-            <span class="pl-2">Login</span></a></li>
+        <% if (typeof email == "undefined") { %>
+          <li><a href="#" id="login" data-toggle="modal" data-target="#loginModal"><i class="fas fa-sign-in-alt"></i>
+              <span class="pl-2">Login</span></a>
+          </li>
+        <% } %>
         <li><a href="/signup" id="signup"><i class="fas fa-sign-out-alt"></i> <span class="pl-2">Register</span></a>
         </li>
       </ul>
     </div>
 
     <!-- login modal -->
-    <form action="/login" method="POST"></form>
+    <form action="/login" method="POST">
       <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -129,10 +132,10 @@
               </div>
               
               <!-- Not part of the form-group -->
-              <button type="button" class="btn btn-link mb-4 pl-0" >Don't have an account? Join here! (not working now due to lack of signup modal)</button>
+              <button type="button" class="btn btn-link mb-4 pl-0" ><small>Don't have an account? Click here! (not working now due to lack of signup modal)</small></button>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-              <button class="btn btn-danger" type="submit">Login</button>
+              <button class="btn btn-danger" type="submit" id="loginButton">Login</button>
             </div>
           </div>
         </div>
