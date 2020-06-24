@@ -1,7 +1,12 @@
 // dependencies
 var express = require('express'),
-    // initializes express instance from the var above
-    app = express();
+    bodyParser = require("body-parser"); // needed to process POST requests
+
+// initializations
+// initializes express instance from the var above
+var app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
     
 // routes
 var indexRoutes = require('./routes/index');

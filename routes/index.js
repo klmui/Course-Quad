@@ -1,18 +1,26 @@
 var express = require("express");
-var bodyParser = require("body-parser"); // needed to process POST requests
 var router  = express.Router();
 
-// render home page
+// root route - render home page
 router.get('/', function(req, res) {
   res.render('index');
 });
 
-// accept the POST request from the login modal
+// ===========
+// AUTH ROUTES
+// ===========
+
+// POST login info
 router.post('/login', function(req, res) {
-  console.log("POST request received!");
+  // get the username and password from the request (comes from the name attr of the input)
+  var user = {"username": req.body.username, "password": req.body.password};
+  console.log("username:" + user.username + ", password: " + user.password);
+
+  // render the home page and change the name to the email
+  res.render('index', {email: user.username});
 });
 
-// render signup page
+// GET (render) signup page
 router.get('/signup', function(req, res) {
   res.render('signup');
 });
