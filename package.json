@@ -4,6 +4,7 @@
   "description": "Course Quad streamlines the process of finding the right courses and succeeding within those courses. Explore course-grade distributions, course reviews, instructor reviews, study groups, and fun statistics! This is expected to be done by the end of July.",
   "main": "app.js",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "ejs": "^3.1.3",
     "express": "^4.17.1",
     "nodemon": "^2.0.4"

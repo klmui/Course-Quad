@@ -66,9 +66,22 @@
     <!-- side bar -->
     <div id="sidebar-wrapper">
       <ul class="sidebar-nav">
-        <li><a href="#" class='text-center' id="account">X Æ A-12</a></li>
-        <hr>
-        </hr>
+        <!-- javacript logic -->
+        <% if (typeof email != "undefined") { %>
+          <li>
+            <a href="#" class='text-center' id="account">
+              <% if (email.length >= 19) { %>
+                <!-- render email passed into page to screen -->
+                <%= email.substring(0, 19) %>...
+              <% } else { %>
+                <%= email %>
+              <% } %>
+            </a>
+          </li>
+        <% } else { %>
+          <li><a href="#" class='text-center' id="account">X Æ A-12</a></li>
+        <% } %>
+        <hr></hr>
         <li><a href="#" id="study-groups"><i class="fas fa-users"></i> <span class="pl-2">Study Groups (0)</span></a>
         </li>
         <li><a href="#" id="saved-courses"><i class="fas fa-bookmark"></i> <span class="pl-2">Saved Courses</span></a>
@@ -81,8 +94,7 @@
             <li><a href="#" id="instructor-reviews" class="text-center">Instructor Reviews</a></li>
           </ul>
         </li>
-        <hr>
-        </hr>
+        <hr></hr>
         <li><a href="#" id="settings"><i class="fas fa-cog"></i> <span class="pl-2">Settings</span></a></li>
         <li><a href="#" id="login" data-toggle="modal" data-target="#loginModal"><i class="fas fa-sign-in-alt"></i>
             <span class="pl-2">Login</span></a></li>
@@ -106,14 +118,14 @@
             <div class="modal-body mx-3">
               <div class="md-form mb-5">
                 <i class="fas fa-user prefix grey-text"></i>
-                <label data-error="wrong" data-success="right" for="defaultForm-email">Your username</label>
-                <input type="text" id="defaultForm-email" class="form-control validate">
+                <label data-error="wrong" data-success="right" for="defaultForm-email">Username</label>
+                <input type="email" id="defaultForm-email" name="username" class="form-control validate" placeholder="johnsmith@example.com" required>
               </div>
 
               <div class="md-form mb-4">
                 <i class="fas fa-lock prefix grey-text"></i>
-                <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
-                <input type="password" id="defaultForm-pass" class="form-control validate">
+                <label data-error="wrong" data-success="right" for="defaultForm-pass">Password</label>
+                <input type="password" id="defaultForm-pass" name="password" class="form-control validate" required>
                 
               </div>
 
