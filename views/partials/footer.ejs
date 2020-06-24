@@ -16,12 +16,16 @@
         $('#wrapper').css('margin-top', $('.navbar').height() + 15);
         
         // more responsiveness
-        if (screen.width <= 768 || window.innerWidth <= 991) {
-          $('#topContainer').removeClass('container');
-          $('#menu-toggle').addClass('hidden');
-        } else {
-          $('#topContainer').addClass('container');
-        } 
+        function resizeTopbar() {
+          if (window.innerWidth <= 768 || window.innerWidth <= 991) {
+            $('#topContainer').removeClass('container');
+            $('#menu-toggle').addClass('hidden');
+          } else {
+            $('#topContainer').addClass('container');
+          }
+        }
+        // Bind event listener to update window size whenever the window is reized
+        $(window).resize(resizeTopbar());
       </script>
 
       <!-- toggle hidden class for sidebar hamburger toggle -->
