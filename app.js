@@ -1,4 +1,5 @@
 // dependencies
+require('dotenv').config();
 var express    = require('express'),
     bodyParser = require("body-parser"), // needed to process POST requests
     mysql      = require('mysql');
@@ -11,10 +12,10 @@ app.use(express.urlencoded({ extended: false }));
 
 // connect to DB
 var connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'courseQuad'
+  host: 'course-quad-db.czncdgwxrcel.us-east-2.rds.amazonaws.com',
+  user: 'admin',
+  password: process.env.DB_PASSWORD,
+  database: 'sample'
 });
 connection.connect(function(error) {
   if (error) {
