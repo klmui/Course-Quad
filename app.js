@@ -10,7 +10,7 @@ var app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// connect to DB
+// connect to hosted DB 
 var connection = mysql.createConnection({
   host: 'course-quad-db.czncdgwxrcel.us-east-2.rds.amazonaws.com',
   user: 'admin',
@@ -24,6 +24,22 @@ connection.connect(function(error) {
     console.log("Connected to DB");
   }
 }); 
+
+var connection = mysql.createConnection({
+  host: '127.0.0.1',
+  user: 'root',
+  password: '',
+  database: 'coursequad'
+});
+connection.connect(function(error) {
+  if (error) {
+    console.log("Could not connect to DB: " + error);
+  } else {
+    console.log("Connected to DB");
+  }
+}); 
+
+global.connection = connection;
     
 // routes
 var indexRoutes = require('./routes/index');
@@ -47,6 +63,10 @@ app.get('/test', function(req, res) {
       console.log(rows);
     }
   });
+});
+
+app.get('/*', function(req, res) {
+  res.render('404');
 });
 
 app.listen(process.env.PORT || 3000, function() {

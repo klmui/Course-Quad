@@ -1,6 +1,10 @@
 var express = require("express");
 var router  = express.Router();
 
+router.get('/test/:id', function(req, res) {
+  console.log(req.params.id);
+});
+
 // root route - render home page
 router.get('/', function(req, res) {
   res.render('index');
