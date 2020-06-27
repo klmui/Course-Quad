@@ -68,20 +68,21 @@
       <ul class="sidebar-nav">
         <!-- javacript logic -->
         <% if (typeof email != "undefined") { %>
-          <li>
-            <a href="#" class='text-center' id="account">
-              <% if (email.length >= 19) { %>
-                <!-- render email passed into page to screen -->
-                <%= email.substring(0, 19) %>...
-              <% } else { %>
-                <%= email %>
-              <% } %>
-            </a>
-          </li>
+        <li>
+          <a href="#" class='text-center' id="account">
+            <% if (email.length >= 19) { %>
+            <!-- render email passed into page to screen -->
+            <%= email.substring(0, 19) %>...
+            <% } else { %>
+            <%= email %>
+            <% } %>
+          </a>
+        </li>
         <% } else { %>
-          <li><a href="#" class='text-center' id="account">X Æ A-12</a></li>
+        <li><a href="#" class='text-center' id="account">X Æ A-12</a></li>
         <% } %>
-        <hr></hr>
+        <hr>
+        </hr>
         <li><a href="#" id="study-groups"><i class="fas fa-users"></i> <span class="pl-2">Study Groups (0)</span></a>
         </li>
         <li><a href="#" id="saved-courses"><i class="fas fa-bookmark"></i> <span class="pl-2">Saved Courses</span></a>
@@ -94,22 +95,24 @@
             <li><a href="#" id="instructor-reviews" class="text-center">Instructor Reviews</a></li>
           </ul>
         </li>
-        <hr></hr>
+        <hr>
+        </hr>
         <li><a href="#" id="settings"><i class="fas fa-cog"></i> <span class="pl-2">Settings</span></a></li>
         <% if (typeof email == "undefined") { %>
-          <li><a href="#" id="login" data-toggle="modal" data-target="#loginModal"><i class="fas fa-sign-in-alt"></i>
-              <span class="pl-2">Login</span></a>
-          </li>
+        <li><a href="#" id="login" data-toggle="modal" data-target="#loginModal"><i class="fas fa-sign-in-alt"></i>
+            <span class="pl-2">Login</span></a>
+        </li>
         <% } %>
         <% if (typeof email != "undefined") { %>
-          <li><a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> <span class="pl-2">Logout</span></a>
-        <% } else { %>
-          <li><a href="/signup" id="signup"><i class="fas fa-sign-out-alt"></i> <span class="pl-2">Register</span></a>
-        <% } %>
+        <li><a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> <span class="pl-2">Logout</span></a>
+          <% } else { %>
+        <li><a href="#" id="signup" data-toggle="modal" data-target="#signUpModal"><i class="fas fa-sign-out-alt"></i>
+            <span class="pl-2">Register</span></a>
+          <% } %>
         </li>
       </ul>
     </div>
-    
+
     <!-- login modal -->
     <form action="/login" method="POST">
       <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -126,7 +129,8 @@
               <div class="md-form mt-4 form-group">
                 <i class="fas fa-user prefix grey-text"></i>
                 <label data-error="wrong" data-success="right" for="defaultForm-email">Username</label>
-                <input type="email" id="defaultForm-email" name="username" class="form-control validate" placeholder="johnsmith@example.com" required>
+                <input type="email" id="defaultForm-email" name="username" class="form-control validate"
+                  placeholder="johnsmith@example.com" required>
               </div>
 
               <div class="md-form form-group">
@@ -134,12 +138,58 @@
                 <label data-error="wrong" data-success="right" for="defaultForm-pass">Password</label>
                 <input type="password" id="defaultForm-pass" name="password" class="form-control validate" required>
               </div>
-              
+
               <!-- Not part of the form-group -->
-              <button type="button" class="btn btn-link mb-4 pl-0" ><small>Don't have an account? Click here! (not working now due to lack of signup modal)</small></button>
+              <button type="button" class="btn btn-link mb-4 pl-0"><small>Don't have an account? Click here! (not
+                  working now due to lack of signup modal)</small></button>
             </div>
             <div class="modal-footer d-flex justify-content-center">
               <button class="btn btn-danger" type="submit" id="loginButton">Login</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- sign up modal -->
+    <form action="/signup" method="POST">
+      <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header text-center bg-danger">
+              <h4 class="modal-title w-100 text-white">Sign Up</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body mx-3">
+              <div class="md-form mt-4 form-group">
+                <i class="fas fa-user prefix grey-text"></i>
+                <label data-error="wrong" data-success="right" for="defaultForm-email">Enter Email</label>
+                <input type="email" id="defaultForm-email" name="username" class="form-control validate"
+                  placeholder="johnsmith@email.com" required>
+              </div>
+
+              <div class="md-form form-group">
+                <i class="fas fa-lock prefix grey-text"></i>
+                <label data-error="wrong" data-success="right" for="defaultForm-pass">Create Password</label>
+                <input type="password" id="password" name="password" class="form-control validate" required>
+                <div class="mt-2">
+                  <i class="fas fa-check prefix grey-text"></i>
+                  <label data-error="wrong" data-success="right" for="defaultForm-pass">Confirm Password</label>
+                  <input type="password" id="confirmPassword" name="confirmPassword" class="form-control validate"
+                    required>
+                    <small style="color: red;" class="passwordWarningHidden" id="passwordWarning">Passwords don't match</small>
+                </div>
+              </div>
+
+              <!-- Not part of the form-group -->
+              <button type="button" class="btn btn-link mb-4 pl-0"><small>Already have an account? Click here! (not
+                  working now)</small></button>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+              <button class="btn btn-danger" type="submit" id="signUpButton">Register</button>
             </div>
           </div>
         </div>

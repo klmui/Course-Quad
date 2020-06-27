@@ -1,43 +1,64 @@
-        </div>
-      </div>
+</div>
+</div>
 
-      <!-- menu toggle script -->
-      <script>
-        $("#menu-toggle").click(function(e) {
-          // don't go to url
-          e.preventDefault();
-          $("#wrapper").toggleClass("menuDisplayed");
-        });
-      </script>
+<!-- menu toggle script -->
+<script>
+  $("#menu-toggle").click(function (e) {
+    // don't go to url
+    e.preventDefault();
+    $("#wrapper").toggleClass("menuDisplayed");
+  });
+</script>
 
-      <!-- margin script to keep page content + side nav bar from overlapping with fixed top nav bar -->
-      <script>
-        $('#wrapper').css('margin-top', $('.navbar').height() + 15);
-        
-        // Bind event listener to update window size whenever the window is resized to adjust top nav bar
-        $(window).on('resize', function() {
-          if ($(window).width() <= 768 || $(window).width() <= 991) {
-            $('#topContainer').removeClass('container');
-            $('#menu-toggle').addClass('hidden');
-          } else {
-            $('#topContainer').addClass('container');
-          }
-        });
-      </script>
+<!-- margin script to keep page content + side nav bar from overlapping with fixed top nav bar -->
+<script>
+  $('#wrapper').css('margin-top', $('.navbar').height() + 15);
 
-      <!-- toggle hidden class for sidebar hamburger toggle -->
-      <script>
-        $(document).ready(function() {
-          $('#menu-toggle').on('click', function() {
-            $(this).toggleClass('hidden');
+  // Bind event listener to update window size whenever the window is resized to adjust top nav bar
+  $(window).on('resize', function () {
+    if ($(window).width() <= 768 || $(window).width() <= 991) {
+      $('#topContainer').removeClass('container');
+      $('#menu-toggle').addClass('hidden');
+    } else {
+      $('#topContainer').addClass('container');
+    }
+  });
+</script>
 
-          });
-        });
-      </script>
+<!-- toggle hidden class for sidebar hamburger toggle -->
+<script>
+  $(document).ready(function () {
+    $('#menu-toggle').on('click', function () {
+      $(this).toggleClass('hidden');
 
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  </body>
+    });
+  });
+</script>
+
+<!-- validate password match when signing up -->
+<script>
+  $("#signUpButton").click(function (e) {
+    //e.preventDefault();
+    // check whether the passwords match
+    var password = $('#password');
+    console.log(password.val());
+    var confirm_password = $('#confirmPassword');
+    console.log(confirm_password.val());
+
+    if (password.val() != confirm_password.val()) {
+      e.preventDefault();
+      var passwordWarning = $('#passwordWarning');
+      passwordWarning.removeClass('passwordWarningHidden');
+    } else {
+      // goto /signup route
+    }
+  })
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+  integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
 
 </html>

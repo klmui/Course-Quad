@@ -20,6 +20,17 @@ router.post('/login', function(req, res) {
   res.render('index', {email: user.username});
 });
 
+// POST sign up info
+router.post('/signup', function(req, res){
+  // get the username and password from the request
+  var newUser = {"username": req.body.username, "password": req.body.password};
+
+  console.log("username:" + newUser.username + ", password: " + "secret");
+
+  //TODO check that the username is unique (i.e., not already in the database)
+  res.render('index', {email: newUser.username});
+});
+
 // GET (render) signup page
 router.get('/signup', function(req, res) {
   res.render('signup');
