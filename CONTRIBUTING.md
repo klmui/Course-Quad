@@ -24,5 +24,5 @@ git push origin sample-branch-name
 ```
 git checkout master
 git branch -D sample-branch-name
-git pull orign master
+git pull origin master
 ```
