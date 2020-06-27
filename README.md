@@ -29,7 +29,7 @@ npm install
 ```
 3. Run server
 ```
-node app.js
+node app.js or nodemon
 ```
 4. Open application in browser
 ```
@@ -43,6 +43,7 @@ npm install <dependency-name> --save
 * [Bootstrap 4](https://getbootstrap.com/docs/4.3/getting-started/introduction/) - the frontend library used
 * [Node.js](https://nodejs.org/en/) - server environment
 * [Express](https://expressjs.com/), [Express Node Module](https://www.npmjs.com/package/express) - Node.js framework for handling server-side logic
+* [MySQL](https://www.mysql.com/)
 
 ## Contributing
 Please read [CONTRIBUTING.md](https://github.com/klmui/Course-Quad/blob/master/CONTRIBUTING.md) for how to contribute and send a pull request.
