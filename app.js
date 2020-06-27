@@ -24,6 +24,21 @@ connection.connect(function(error) {
     console.log("Connected to DB");
   }
 }); 
+// // Local DB Connection:
+// var connection = mysql.createConnection({
+//   host: '127.0.0.1', 
+//   user: 'root', 
+//   password: '',
+//   database: 'coursequad'
+// });
+// connection.connect(function(error) {
+//   if (error) {
+//     console.log("Could not connect to DB: " + error);
+//   } else {
+//     console.log("Connected to DB");
+//   }
+// }); 
+global.connection = connection;
     
 // routes
 var indexRoutes = require('./routes/index');
@@ -48,6 +63,11 @@ app.get('/test', function(req, res) {
     }
   });
 });
+
+// last case: url not found
+app.get('/*', function(req, res){
+  res.render("404");
+})
 
 app.listen(process.env.PORT || 3000, function() {
   // all logs are in the terminal, not browser in node.js
