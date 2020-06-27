@@ -17,3 +17,7 @@ body {
   width: 80%;
   display: block;
 }
+
+.passwordWarningHidden {
+  display: none;
+}
