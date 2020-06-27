@@ -48,7 +48,7 @@ npm install <dependency-name> --save
 ## Contributing
 Please read [CONTRIBUTING.md](https://github.com/klmui/Course-Quad/blob/master/CONTRIBUTING.md) for how to contribute and send a pull request.
 
-## Liscense
+## License
 This project is licensed under the [MIT](https://github.com/klmui/Course-Quad/blob/master/LICENSE) License.
 
 ## Acknowledgments
