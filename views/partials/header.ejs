@@ -101,7 +101,11 @@
               <span class="pl-2">Login</span></a>
           </li>
         <% } %>
-        <li><a href="/signup" id="signup"><i class="fas fa-sign-out-alt"></i> <span class="pl-2">Register</span></a>
+        <% if (typeof email != "undefined") { %>
+          <li><a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> <span class="pl-2">Logout</span></a>
+        <% } else { %>
+          <li><a href="/signup" id="signup"><i class="fas fa-sign-out-alt"></i> <span class="pl-2">Register</span></a>
+        <% } %>
         </li>
       </ul>
     </div>
