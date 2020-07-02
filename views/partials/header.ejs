@@ -19,7 +19,12 @@
 
   <!-- jQuery CDN -->
   <script src="https://code.jquery.com/jquery-3.5.0.min.js"
-    integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous">
+  </script>
+
+  <!-- Datatable CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
 
   <title>Welcome to the Course Quad</title>
 </head>
@@ -128,8 +133,8 @@
             <div class="modal-body mx-3">
               <div class="md-form mt-4 form-group">
                 <i class="fas fa-user prefix grey-text"></i>
-                <label data-error="wrong" data-success="right" for="defaultForm-email">Username</label>
-                <input type="email" id="defaultForm-email" name="username" class="form-control validate"
+                <label data-error="wrong" data-success="right" for="defaultForm-email-signin">Username</label>
+                <input type="email" id="defaultForm-email-signin" name="username" class="form-control validate"
                   placeholder="johnsmith@example.com" required>
               </div>
 
@@ -166,8 +171,8 @@
             <div class="modal-body mx-3">
               <div class="md-form mt-4 form-group">
                 <i class="fas fa-user prefix grey-text"></i>
-                <label data-error="wrong" data-success="right" for="defaultForm-email">Enter Email</label>
-                <input type="email" id="defaultForm-email" name="username" class="form-control validate"
+                <label data-error="wrong" data-success="right" for="defaultForm-email-signup">Enter Email</label>
+                <input type="email" id="defaultForm-email-signup" name="username" class="form-control validate"
                   placeholder="johnsmith@email.com" required>
               </div>
 
