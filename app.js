@@ -5,10 +5,40 @@ var express    = require('express'),
     mysql      = require('mysql');
 
 // initializations
-// initializes express instance from the var above
-var app = express();
+var app = express(); // initializes express instance from the var above
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+var connection = mysql.createConnection({
+  host: 'course-quad-db.czncdgwxrcel.us-east-2.rds.amazonaws.com',
+  user: 'admin',
+  password: process.env.DB_PASSWORD,
+  database: 'CourseQuadDB'
+});
+
+// connect to DB
+connection.connect(function(error) {
+  if (error) {
+    console.log("Could not connect to DB: " + error);
+  } else {
+    console.log("Connected to DB");
+  }
+}); 
+// // Local DB Connection:
+// var connection = mysql.createConnection({
+//   host: '127.0.0.1', 
+//   user: 'root', 
+//   password: '',
+//   database: 'coursequad'
+// });
+// connection.connect(function(error) {
+//   if (error) {
+//     console.log("Could not connect to DB: " + error);
+//   } else {
+//     console.log("Connected to DB");
+//   }
+// }); 
+global.connection = connection;
 
 // routes
 var indexRoutes = require('./routes/index');
@@ -24,7 +54,7 @@ app.use('/', indexRoutes);
 
 // TESTING route for DB
 app.get('/test', function(req, res) {
-  connection.query("SELECT * FROM mySampleTable", function(error, rows, fields) {
+  connection.query("SELECT * FROM Course", function(error, rows, fields) {
     if (error) {
       console.log('Error in test query');
     } else {
