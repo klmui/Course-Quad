@@ -32,9 +32,11 @@
         </div>
 
         <!-- courses -->
-        <table id="courseTable" class="table table-striped hover" style="width:100%">
+        <% console.log("test") %>
+        <table id="courseTable" class="table table-striped table-bordered hover dataTable" style="width:100%">
           <thead>
             <tr>
+              <th>Subject</th>
               <th>Course</th>
               <th>GPA</th>
               <th>A's</th>
@@ -47,39 +49,20 @@
             </tr>
           </thead>
           <tbody>
+            <% for (var i = 0; i < courses.length; i++) { %>
             <tr>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
-              <td>Germany</td>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
-              <td>Germany</td>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
-              <td>Germany</td>
+              <td>Sub</td>
+              <td><%=courses[i].name%></td></td>
+              <td>3.0</td>
+              <td>A</td>
+              <td>AB</td>
+              <td>B</td>
+              <td>BC</td>
+              <td>C</td>
+              <td>D</td>
+              <td>F</td>
             </tr>
-            <tr>
-              <td>Centro comercial Moctezuma</td>
-              <td>Francisco Chang</td>
-              <td>Mexico</td>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
-              <td>Germany</td>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
-              <td>Germany</td>
-            </tr>
-            <tr>
-              <td>Ernst Handel</td>
-              <td>Roland Mendel</td>
-              <td>Austria</td>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
-              <td>Germany</td>
-              <td>Alfreds Futterkiste</td>
-              <td>Maria Anders</td>
-              <td>Germany</td>
-            </tr>
+          <% } %>
           </tbody>
         </table>
       </div>

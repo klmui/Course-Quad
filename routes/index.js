@@ -3,12 +3,20 @@ var router  = express.Router();
 
 // root route - render home page
 router.get('/', function(req, res) {
-  res.render('index');
+  connection.query("SELECT * FROM Course", function(error, rows, fields) {
+    if (error) {
+      console.log('Error in test query');
+    } else {
+      console.log("Successful query");
+      res.render('index', {"courses": rows});
+      console.log(rows);
+    }
+  });
 });
 
-// ===========
+// =================================================================================
 // AUTH ROUTES
-// ===========
+// =================================================================================
 
 // POST login info  
 router.post('/login', function(req, res) {
