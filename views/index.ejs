@@ -1,11 +1,13 @@
 <%- include('./partials/header'); %>
 
+<div id="loader" class="center"></div> 
+
 <div class="card">
   <div class="container-fluid">
     <div class="row">
       <div class="col-lg-12">
         <div class="card-header ml-3" style="width: 100%;">
-          <h3 class="card-title text-center"></em>Your home for <span id="greeting"><em>success</em></span>!</h3>
+          <h3 class="card-title text-center" style="text-shadow: 2px 2px 10px red;"></em>Your home for <span id="greeting"><em>success</em></span><em>!</em></h3>
         </div>
 
         <div class='card-body'>
@@ -28,14 +30,6 @@
                       class="d-block w-100 caraousel-img img-fluid" alt="Observatory Hill">
                   </div>
                 </div>
-                <!-- <a class="carousel-control-prev" href="#fadingCarousel" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#fadingCarousel" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a> -->
               </div>
             </div>
 
@@ -45,6 +39,8 @@
                 <tr>
                   <th>Subject</th>
                   <th>Course</th>
+                  <th>Rating</th>
+                  <th>Difficulty</th>
                   <th>GPA</th>
                   <th>A's</th>
                   <th>AB's</th>
@@ -61,6 +57,14 @@
                   <td>Sub</td>
                   <td><a href="/courses/<%=courses[i].courseID%>"><%=courses[i].name%><a></td>
                   </td>
+                  <td>
+                    <span class="fa fa-star fa-xs checked"></span>
+                    <span class="fa fa-star fa-xs checked"></span>
+                    <span class="fa fa-star fa-xs checked"></span>
+                    <span class="fa fa-star fa-xs checked"></span>
+                    <span class="fa fa-star fa-xs checked"></span>
+                  </td>
+                  <td>5.0</td>
                   <td>3.0</td>
                   <td>A</td>
                   <td>AB</td>

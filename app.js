@@ -4,7 +4,8 @@ var express    = require('express'),
     bodyParser = require("body-parser"), // needed to process POST requests
     mysql      = require('mysql'),
     // routes
-    courseRoutes = require('./routes/course');
+    courseRoutes = require('./routes/course'),
+    instructorRoutes = require('./routes/instructors');
 
 // initializations
 var app = express(); // initializes express instance from the var above
@@ -55,6 +56,7 @@ app.set('view engine', 'ejs');
 // Prepend '/' to all index routes
 app.use('/', indexRoutes);
 app.use('/courses', courseRoutes);
+app.use('/instructors', instructorRoutes);
 
 // TESTING route for DB
 app.get('/test', function(req, res) {
