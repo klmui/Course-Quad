@@ -1,0 +1,141 @@
+<%- include('./partials/header'); %>
+
+<div class='card-title'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class="col-lg-12">
+        <div class="card-header ml-3" style="width: 100%;">
+          <h3 class="card-title text-center">Course Title</h3>
+        </div>
+
+        <div class='card-body'>
+          <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            </ol>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div id="pieChart"></div>
+              </div>
+              <div class="carousel-item">
+                <div id="barChart"></div>
+              </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    am4core.ready(function () {
+
+      // Themes begin
+      am4core.useTheme(am4themes_animated);
+      // Themes end
+
+      // Create chart instance
+      var chart = am4core.create("pieChart", am4charts.PieChart);
+
+      // Add data
+      chart.data = [{
+        "country": "Lithuania",
+        "litres": 501.9
+      }, {
+        "country": "Czechia",
+        "litres": 301.9
+      }, {
+        "country": "Ireland",
+        "litres": 201.1
+      }, {
+        "country": "Germany",
+        "litres": 165.8
+      }, {
+        "country": "Australia",
+        "litres": 139.9
+      }, {
+        "country": "Austria",
+        "litres": 128.3
+      }, {
+        "country": "UK",
+        "litres": 99
+      }];
+
+      // Add and configure Series
+      var pieSeries = chart.series.push(new am4charts.PieSeries());
+      pieSeries.dataFields.value = "litres";
+      pieSeries.dataFields.category = "country";
+      pieSeries.slices.template.stroke = am4core.color("#fff");
+      pieSeries.slices.template.strokeOpacity = 1;
+
+      // This creates initial animation
+      pieSeries.hiddenState.properties.opacity = 1;
+      pieSeries.hiddenState.properties.endAngle = -90;
+      pieSeries.hiddenState.properties.startAngle = -90;
+
+      chart.hiddenState.properties.radius = am4core.percent(0);
+
+
+
+
+      var chart = am4core.create("barChart", am4charts.XYChart);
+
+      var data = [];
+      var value = 50;
+      for (var i = 0; i < 300; i++) {
+        var date = new Date();
+        date.setHours(0, 0, 0, 0);
+        date.setDate(i);
+        value -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
+        data.push({
+          date: date,
+          value: value
+        });
+      }
+
+      chart.data = data;
+
+      // Create axes
+      var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+      dateAxis.renderer.minGridDistance = 60;
+
+      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+      // Create series
+      var series = chart.series.push(new am4charts.LineSeries());
+      series.dataFields.valueY = "value";
+      series.dataFields.dateX = "date";
+      series.tooltipText = "{value}"
+
+      series.tooltip.pointerOrientation = "vertical";
+
+      chart.cursor = new am4charts.XYCursor();
+      chart.cursor.snapToSeries = series;
+      chart.cursor.xAxis = dateAxis;
+
+      //chart.scrollbarY = new am4core.Scrollbar();
+      chart.scrollbarX = new am4core.Scrollbar();
+
+
+    }); // end am4core.ready()
+  </script>
+
+  <script>
+    $('.carouselExampleIndicators').carousel({
+      interval: false,
+    });
+
+    $('.nav-item').removeClass('active border rounded');
+    $('#coursesTab').addClass('active border rounded');
+  </script>
+
+  <%- include('./partials/footer'); %>

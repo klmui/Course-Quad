@@ -21,3 +21,29 @@ body {
 .passwordWarningHidden {
   display: none;
 }
+
+#pieChart {
+  width: 100%;
+  height: 500px;
+}
+
+#barChart {
+  width: 100%;
+  height: 500px;
+}
+
+.carousel-control-next-icon {
+  background-color: black !important;
+}
+
+.carousel-control-prev-icon {
+  background-color: black !important;
+}
+
+.carousel-control-prev {
+  width: 2%;
+}
+
+.carousel-control-next {
+  width: 2%;
+}

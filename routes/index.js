@@ -8,6 +8,7 @@ router.get('/', function(req, res) {
       console.log('Error in test query');
     } else {
       res.render('index', {"courses": rows});
+      console.log(rows);
     }
   });
 });

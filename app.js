@@ -2,7 +2,9 @@
 require('dotenv').config();
 var express    = require('express'),
     bodyParser = require("body-parser"), // needed to process POST requests
-    mysql      = require('mysql');
+    mysql      = require('mysql'),
+    // routes
+    courseRoutes = require('./routes/course');
 
 // initializations
 var app = express(); // initializes express instance from the var above
@@ -49,8 +51,10 @@ app.use(express.static(__dirname + '/public'));
 // so we don't need '.ejs' after files
 app.set('view engine', 'ejs');
 
+// use routes
 // Prepend '/' to all index routes
 app.use('/', indexRoutes);
+app.use('/courses', courseRoutes);
 
 // TESTING route for DB
 app.get('/test', function(req, res) {
