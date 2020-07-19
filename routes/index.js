@@ -7,9 +7,7 @@ router.get('/', function(req, res) {
     if (error) {
       console.log('Error in test query');
     } else {
-      console.log("Successful query");
       res.render('index', {"courses": rows});
-      console.log(rows);
     }
   });
 });
