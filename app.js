@@ -5,7 +5,8 @@ var express    = require('express'),
     mysql      = require('mysql'),
     // routes
     courseRoutes = require('./routes/course'),
-    instructorRoutes = require('./routes/instructors');
+    instructorRoutes = require('./routes/instructors'),
+    studyGroupRoutes = require('./routes/studyGroups');
 
 // initializations
 var app = express(); // initializes express instance from the var above
@@ -57,6 +58,7 @@ app.set('view engine', 'ejs');
 app.use('/', indexRoutes);
 app.use('/courses', courseRoutes);
 app.use('/instructors', instructorRoutes);
+app.use('/studyGroups', studyGroupRoutes);
 
 // TESTING route for DB
 app.get('/test', function(req, res) {
