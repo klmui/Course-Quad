@@ -78,3 +78,20 @@ body {
   top: 50%;  
   left: 50%; 
 } 
+
+.draggable:hover {
+  cursor: move;
+  cursor: grab;
+}
+
+.draggable:active {
+  cursor: grabbing;
+}
+
+.arrows {
+  margin-right: 10px;
+}
+
+.arrows:hover {
+  color: darkorange;
+}

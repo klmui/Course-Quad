@@ -1,0 +1,44 @@
+<%- include('./partials/header'); %>
+
+<div id="loader" class="center"></div> 
+
+<div class='card-title'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class="col-lg-12">
+        <div class="card-header ml-3" style="width: 100%;">
+          <h3 class="card-title text-center">Saved Courses</h3>
+        </div>
+        
+        <div class="card-body">
+          <ul class="savedCourseList" id="savedCourseList" style="list-style-type: none; border: 1px solid lightgrey; border-radius: 5px; padding: 10px;">
+            <li class="mb-4 ml-4 border-bottom draggable">
+              <i class="fa fa-arrows-v arrows fa-lg"></i>
+              <a href="#">Intro to Bioinformatics</a>
+            </li>
+            <li class="mb-4 ml-4 border-bottom draggable">
+              <i class="fa fa-arrows-v arrows fa-lg"></i>
+              <a href="#">Intro to Databases</a>
+            </li>
+            <li class="mb-4 ml-4 border-bottom draggable">
+              <i class="fa fa-arrows-v arrows fa-lg"></i>
+              <a href="#">Clap for Credit</a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('.nav-item').removeClass('active border rounded');
+  new Sortable(savedCourseList, {
+   animation: 150,
+   ghostClass: 'sortable-ghost'
+ });
+
+</script>
+
+<%- include('./partials/footer'); %>
