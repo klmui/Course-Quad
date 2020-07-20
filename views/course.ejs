@@ -57,9 +57,13 @@
             </ol>
             <div class="carousel-inner">
               <div class="carousel-item active">
+                <!-- grade distribution -->
+                <h3 class="mb-0">Grade Distribution</h3>
                 <div id="pieChart"></div>
               </div>
               <div class="carousel-item">
+                <!-- rating over time -->
+                <h3 class="mb-0">Course Rating Over Time</h3>
                 <div id="barChart"></div>
               </div>
             </div>
@@ -121,103 +125,104 @@
       </div>
     </div>
   </div>
+</div>
 
-  <script>
-    am4core.ready(function () {
+<script>
+  am4core.ready(function () {
 
-      // Themes begin
-      am4core.useTheme(am4themes_animated);
-      // Themes end
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    // Themes end
 
-      // Create chart instance
-      var chart = am4core.create("pieChart", am4charts.PieChart);
+    // Create chart instance
+    var chart = am4core.create("pieChart", am4charts.PieChart);
 
-      // Add data
-      chart.data = [{
-        "country": "Lithuania",
-        "litres": 501.9
-      }, {
-        "country": "Czechia",
-        "litres": 301.9
-      }, {
-        "country": "Ireland",
-        "litres": 201.1
-      }, {
-        "country": "Germany",
-        "litres": 165.8
-      }, {
-        "country": "Australia",
-        "litres": 139.9
-      }, {
-        "country": "Austria",
-        "litres": 128.3
-      }, {
-        "country": "UK",
-        "litres": 99
-      }];
+    // Add data
+    chart.data = [{
+      "country": "A",
+      "litres": 501.9
+    }, {
+      "country": "AB",
+      "litres": 301.9
+    }, {
+      "country": "B",
+      "litres": 201.1
+    }, {
+      "country": "BC",
+      "litres": 165.8
+    }, {
+      "country": "C",
+      "litres": 139.9
+    }, {
+      "country": "D",
+      "litres": 128.3
+    }, {
+      "country": "F",
+      "litres": 99
+    }];
 
-      // Add and configure Series
-      var pieSeries = chart.series.push(new am4charts.PieSeries());
-      pieSeries.dataFields.value = "litres";
-      pieSeries.dataFields.category = "country";
-      pieSeries.slices.template.stroke = am4core.color("#fff");
-      pieSeries.slices.template.strokeOpacity = 1;
+    // Add and configure Series
+    var pieSeries = chart.series.push(new am4charts.PieSeries());
+    pieSeries.dataFields.value = "litres";
+    pieSeries.dataFields.category = "country";
+    pieSeries.slices.template.stroke = am4core.color("#fff");
+    pieSeries.slices.template.strokeOpacity = 1;
 
-      // This creates initial animation
-      pieSeries.hiddenState.properties.opacity = 1;
-      pieSeries.hiddenState.properties.endAngle = -90;
-      pieSeries.hiddenState.properties.startAngle = -90;
+    // This creates initial animation
+    pieSeries.hiddenState.properties.opacity = 1;
+    pieSeries.hiddenState.properties.endAngle = -90;
+    pieSeries.hiddenState.properties.startAngle = -90;
 
-      chart.hiddenState.properties.radius = am4core.percent(0);
-
-
-
-      // Bar chart here
-      var chart = am4core.create("barChart", am4charts.XYChart);
-
-      var data = [];
-      var value = 50;
-      for (var i = 0; i < 300; i++) {
-        var date = new Date();
-        date.setHours(0, 0, 0, 0);
-        date.setDate(i);
-        value -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-        data.push({
-          date: date,
-          value: value
-        });
-      }
-
-      chart.data = data;
-
-      // Create axes
-      var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-      dateAxis.renderer.minGridDistance = 60;
-
-      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-
-      // Create series
-      var series = chart.series.push(new am4charts.LineSeries());
-      series.dataFields.valueY = "value";
-      series.dataFields.dateX = "date";
-      series.tooltipText = "{value}"
-
-      series.tooltip.pointerOrientation = "vertical";
-
-      chart.cursor = new am4charts.XYCursor();
-      chart.cursor.snapToSeries = series;
-      chart.cursor.xAxis = dateAxis;
-
-      //chart.scrollbarY = new am4core.Scrollbar();
-      chart.scrollbarX = new am4core.Scrollbar();
+    chart.hiddenState.properties.radius = am4core.percent(0);
 
 
-    }); // end am4core.ready()
-  </script>
 
-  <script>
-    $('.nav-item').removeClass('active border rounded');
-    $('#coursesTab').addClass('active border rounded');
-  </script>
+    // Bar chart here
+    var chart = am4core.create("barChart", am4charts.XYChart);
 
-  <%- include('./partials/footer'); %>
+    var data = [];
+    var value = 50;
+    for (var i = 0; i < 300; i++) {
+      var date = new Date();
+      date.setHours(0, 0, 0, 0);
+      date.setDate(i);
+      value -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
+      data.push({
+        date: date,
+        value: value
+      });
+    }
+
+    chart.data = data;
+
+    // Create axes
+    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+    dateAxis.renderer.minGridDistance = 60;
+
+    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+    // Create series
+    var series = chart.series.push(new am4charts.LineSeries());
+    series.dataFields.valueY = "value";
+    series.dataFields.dateX = "date";
+    series.tooltipText = "{value}"
+
+    series.tooltip.pointerOrientation = "vertical";
+
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.snapToSeries = series;
+    chart.cursor.xAxis = dateAxis;
+
+    //chart.scrollbarY = new am4core.Scrollbar();
+    chart.scrollbarX = new am4core.Scrollbar();
+
+
+  }); // end am4core.ready()
+</script>
+
+<script>
+  $('.nav-item').removeClass('active border rounded');
+  $('#coursesTab').addClass('active border rounded');
+</script>
+
+<%- include('./partials/footer'); %>
