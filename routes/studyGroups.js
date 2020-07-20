@@ -6,4 +6,9 @@ router.get('/', function(req, res) {
   res.render('studyGroups/studyGroups');
 });
 
+// explore study groups
+router.get('/explore', function(req, res){
+  res.render('studyGroups/explore');
+});
+
 module.exports = router;
