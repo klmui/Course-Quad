@@ -7,7 +7,7 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="card-header ml-3" style="width: 100%;">
-          <h3 class="card-title text-center">Instructors</h3>
+          <h3 class="card-title text-center">My Course Reviews</h3>
         </div>
           <div class="card-body">
             <!-- instructors -->
@@ -15,13 +15,15 @@
               <thead>
                 <tr>
                   <th>Name</th>
+                  <th>Date</th>
                   <th>Rating</th>
+                  <th>Review</th>
                 </tr>
               </thead>
               <tbody>
-                <% for (var i = 0; i < instructors.length; i++) { %>
                 <tr>
-                  <td><a href="/instructors/<%=instructors[i].instructorID%>"><%=instructors[i].name%></a></td>
+                  <td><a href="#">Introduction to Bioinformatics</a></td>
+                  <td>7/19/2020</td>
                   <td>
                     <span class="fa fa-star fa-xs checked"></span>
                     <span class="fa fa-star fa-xs checked"></span>
@@ -29,8 +31,8 @@
                     <span class="fa fa-star fa-xs checked"></span>
                     <span class="fa fa-star fa-xs checked"></span>
                   </td>
+                  <td>Tough class, but it's super interesting!</td>
                 </tr>
-                <% } %>
               </tbody>
             </table>
           </div>
@@ -41,7 +43,6 @@
 
 <script>
   $('.nav-item').removeClass('active border rounded');
-  $('#instructorsTab').addClass('active border rounded');
 </script>
 
 <%- include('../partials/footer'); %>
