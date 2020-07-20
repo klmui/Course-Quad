@@ -7,7 +7,8 @@ var express    = require('express'),
     courseRoutes = require('./routes/course'),
     instructorRoutes = require('./routes/instructors'),
     studyGroupRoutes = require('./routes/studyGroups'),
-    reviewRoutes     = require('./routes/reviews');
+    reviewRoutes     = require('./routes/reviews'),
+    savedCoursesRoutes     = require('./routes/savedCourses');
 
 // initializations
 var app = express(); // initializes express instance from the var above
@@ -61,6 +62,7 @@ app.use('/courses', courseRoutes);
 app.use('/instructors', instructorRoutes);
 app.use('/studyGroups', studyGroupRoutes);
 app.use('/reviews', reviewRoutes);
+app.use('/savedCourses', savedCoursesRoutes);
 
 // TESTING route for DB
 app.get('/test', function(req, res) {
