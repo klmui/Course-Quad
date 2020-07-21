@@ -79,14 +79,14 @@
     <div id="sidebar-wrapper">
       <ul class="sidebar-nav">
         <!-- javacript logic -->
-        <% if (typeof email != "undefined") { %>
+        <% if (typeof name != "undefined") { %>
         <li>
           <a href="#" class='text-center' id="account">
-            <% if (email.length >= 19) { %>
+            <% if (name.length >= 19) { %>
               <!-- render email passed into page to screen -->
-              <%= email.substring(0, 19) %>...
+              <%= name.substring(0, 19) %>...
               <% } else { %>
-              <%= email %>
+              <%= name %>
             <% } %>
           </a>
         </li>
@@ -144,7 +144,7 @@
               <div class="md-form mt-4 form-group">
                 <i class="fas fa-user prefix grey-text"></i>
                 <label data-error="wrong" data-success="right" for="defaultForm-email-signin">Username</label>
-                <input type="email" id="defaultForm-email-signin" name="username" class="form-control validate"
+                <input type="text" id="defaultForm-email-signin" name="username" class="form-control validate"
                   placeholder="johnsmith@example.com" required>
               </div>
 

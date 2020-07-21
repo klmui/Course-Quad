@@ -18,6 +18,7 @@ const PORT = process.env.PORT || 3000;
 const REDIS_PORT = process.env.REDIS_PORT || 6379;
 //const client = redis.createClient(REDIS_PORT);
 //global.client = client;
+global.bcrypt = bcrypt;
 
 // more init
 var app = express(); // initializes express instance from the var above
