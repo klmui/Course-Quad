@@ -57,13 +57,20 @@ router.post('/signup', function(req, res){
       console.log('Error in test query');
     } else {
        // get the username and password from the request
-      var newUser = {"username": req.body.username, "password": req.body.password};
+      var newUser = {"username": req.body.username, "password": req.body.password, "email": req.body.email};
 
       console.log("username:" + newUser.username + ", password: " + "secret");
-
-      res.render('index', {email: newUser.username, 'courses': rows});
-
-      //TODO check that the username is unique (i.e., not already in the database)
+      var query = "INSERT INTO User (username, password, email) VALUES ?";
+      var values = [[newUser.username, newUser.password, newUser.email]];
+      
+      connection.query(query, [values], function(err, result) {
+        if (err) {
+          console.log(err);
+          console.log("Error signing up. Duplicate username.");
+        } else {
+          res.render('index', {email: newUser.username, 'courses': rows});
+        }
+      });
     }
   });
 });

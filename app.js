@@ -4,6 +4,8 @@ var express    = require('express'),
     bodyParser = require("body-parser"), // needed to process POST requests
     mysql      = require('mysql'),
     redis      = require('redis'),
+    jwt        = require('jsonwebtoken'),
+    bcrypt     = require('bcryptjs')
     // routes
     courseRoutes = require('./routes/course'),
     instructorRoutes = require('./routes/instructors'),
