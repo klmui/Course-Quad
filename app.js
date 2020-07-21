@@ -3,6 +3,7 @@ require('dotenv').config();
 var express    = require('express'),
     bodyParser = require("body-parser"), // needed to process POST requests
     mysql      = require('mysql'),
+    redis      = require('redis'),
     // routes
     courseRoutes = require('./routes/course'),
     instructorRoutes = require('./routes/instructors'),
@@ -11,6 +12,12 @@ var express    = require('express'),
     savedCoursesRoutes     = require('./routes/savedCourses');
 
 // initializations
+const PORT = process.env.PORT || 3000;
+const REDIS_PORT = process.env.REDIS_PORT || 6379;
+//const client = redis.createClient(REDIS_PORT);
+//global.client = client;
+
+// more init
 var app = express(); // initializes express instance from the var above
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -79,9 +86,9 @@ app.get('/test', function(req, res) {
 // last case: url not found
 app.get('/*', function(req, res){
   res.render("404");
-})
+});
 
 app.listen(process.env.PORT || 3000, function() {
   // all logs are in the terminal, not browser in node.js
-  console.log('Server started!'); 
+  console.log(`Server started on port ${PORT}!`); 
 });

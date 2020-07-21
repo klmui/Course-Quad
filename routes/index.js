@@ -3,6 +3,23 @@ var router  = express.Router();
 
 // root route - render home page
 router.get('/', function(req, res) {
+  // try {
+  //   connection.query("SELECT * FROM Course", function(error, rows, fields) {
+  //     if (error) {
+  //       console.log('Error in test query');
+  //     } else {
+  //       // set data to redis (cache)
+  //       // can set an expiration because data on server can change
+  //       client.setex("courses", 3600, JSON.stringify(rows));
+
+  //       res.render('index', {"courses": rows});
+  //       console.log(rows);
+  //     }
+  //   });
+  // } catch (err) {
+  //   console.log(err);
+  //   res.status(500); // server error
+  // }
   connection.query("SELECT * FROM Course", function(error, rows, fields) {
     if (error) {
       console.log('Error in test query');

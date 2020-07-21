@@ -67,6 +67,7 @@ body {
   width: 70px; 
   height: 70px; 
   animation: spin 1s linear infinite; 
+  z-index: 999;
 } 
 @keyframes spin { 
   100% { 

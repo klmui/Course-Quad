@@ -12,26 +12,6 @@
           <div class="card-body">
             <!-- instructors -->
             <table id="instructorTable" class="table table-striped table-bordered hover dataTable" style="width:100%">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Rating</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% for (var i = 0; i < instructors.length; i++) { %>
-                <tr>
-                  <td><a href="/instructors/<%=instructors[i].instructorID%>"><%=instructors[i].name%></a></td>
-                  <td>
-                    <span class="fa fa-star fa-xs checked"></span>
-                    <span class="fa fa-star fa-xs checked"></span>
-                    <span class="fa fa-star fa-xs checked"></span>
-                    <span class="fa fa-star fa-xs checked"></span>
-                    <span class="fa fa-star fa-xs checked"></span>
-                  </td>
-                </tr>
-                <% } %>
-              </tbody>
             </table>
           </div>
       </div>
