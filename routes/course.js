@@ -2,8 +2,49 @@ var express = require('express');
 var router = express.Router();
 
 // show a particular course
-router.get('/:id', function(req, res) {
-  res.render('course');
+router.get("/:courseID", (req, res) => {
+  var courseID = req.params.courseID;
+  var query = 
+  `
+    select c.courseID, c.number as number, c.name as course_name, subj.abbreviation as subject, 
+    r.difficulty, r.stars as rating, term.semester, term.year, i.name as instructor, i.instructorID as instructor_id,
+    d.num_a as numA, 
+    d.num_ab as numAB, d.num_b as numB,
+    d.num_bc as numBC, d.num_c as numC, d.num_d as numD, 
+    d.num_f as numF
+    from Course c
+    inner join Offering o 
+    on c.courseID = o.course_id
+    inner join Belongs b
+    on o.ID = b.course_offering_id
+    inner join Subject subj
+    on subj.code = b.subject_code 
+    inner join Term term 
+    on term.code = o.term_code
+    inner join SectionToDistributionMapping m
+    on o.ID = m.course_offering_id
+    inner join Distribution d 
+    on m.distribution_id = d.ID
+    inner join Section s 
+    on s.distribution_id = m.distribution_id
+    inner join Teach t
+    on s.ID = t.section_id
+    inner join Instructor i
+    on t.instructor_id = i.instructorID
+    left join CourseRating r
+    on c.courseID = r.course_id
+    where subj.code is NOT NULL and c.courseID="${courseID}"
+    and s.distribution_id > 0
+    ORDER BY term.year DESC;
+  `;
+
+  connection.query(query, function(error, rows, fields) {
+    if (error) {
+      console.log("Error in query");
+    } else {
+      res.render('course', {'courseInfo': rows});
+    }
+  });
 });
 
 module.exports = router;

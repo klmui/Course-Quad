@@ -7,17 +7,19 @@
     <div class='row'>
       <div class="col-lg-12">
         <div class="card-header ml-3" style="width: 100%;">
-          <h3 class="card-title text-center">Course Title</h3>
+          <h3 class="card-title text-center courseTitle" id="">Course Title</h3>
         </div>
         
         <div class='row mt-4 mb-3'>
-          <div style="margin: 0 auto;">
+          <div class="d-flex d-inline-block" style="margin: 0 auto;">
             <span class="fa fa-star fa-2x checked"></span>
             <span class="fa fa-star fa-2x checked"></span>
             <span class="fa fa-star fa-2x checked"></span>
             <span class="fa fa-star fa-2x"></span>
             <span class="fa fa-star fa-2x"></span>
-            <em>(Total Reviews: 5000+)</em>
+            <em class="align-self-center">(Total Reviews: 5000+)</em>
+            
+            <h5 class="align-self-center mb-0" style="margin-left: 50px;">Difficulty: 5.0</h5>
           </div>
         </div>
 
@@ -34,27 +36,17 @@
         <div class='row mb-3'>
           <div class='col-lg-6'>
             <div class="dropdown text-center">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                All Terms
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
+              <select class="custom-select" id="instructorSelect" style="background-color: #adadad; width: 70%;">
+                <option selected>All Instructors</option>
+              </select>
             </div>
           </div>          
           
           <div class='col-lg-6'>
             <div class="dropdown text-center">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                All Instructors
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
+              <select class="custom-select" id="termSelect" style="background-color: #adadad; width: 70%;">
+                <option selected>All Terms</option>
+              </select>
             </div>
           </div>
         </div>
@@ -138,102 +130,173 @@
 </div>
 
 <script>
-  am4core.ready(function () {
-
-    // Themes begin
-    am4core.useTheme(am4themes_animated);
-    // Themes end
-
-    // Create chart instance
-    var chart = am4core.create("pieChart", am4charts.PieChart);
-
-    // Add data
-    chart.data = [{
-      "country": "A",
-      "litres": 501.9
-    }, {
-      "country": "AB",
-      "litres": 301.9
-    }, {
-      "country": "B",
-      "litres": 201.1
-    }, {
-      "country": "BC",
-      "litres": 165.8
-    }, {
-      "country": "C",
-      "litres": 139.9
-    }, {
-      "country": "D",
-      "litres": 128.3
-    }, {
-      "country": "F",
-      "litres": 99
-    }];
-
-    // Add and configure Series
-    var pieSeries = chart.series.push(new am4charts.PieSeries());
-    pieSeries.dataFields.value = "litres";
-    pieSeries.dataFields.category = "country";
-    pieSeries.slices.template.stroke = am4core.color("#fff");
-    pieSeries.slices.template.strokeOpacity = 1;
-
-    // This creates initial animation
-    pieSeries.hiddenState.properties.opacity = 1;
-    pieSeries.hiddenState.properties.endAngle = -90;
-    pieSeries.hiddenState.properties.startAngle = -90;
-
-    chart.hiddenState.properties.radius = am4core.percent(0);
-
-
-
-    // Bar chart here
-    var chart = am4core.create("barChart", am4charts.XYChart);
-
-    var data = [];
-    var value = 50;
-    for (var i = 0; i < 300; i++) {
-      var date = new Date();
-      date.setHours(0, 0, 0, 0);
-      date.setDate(i);
-      value -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-      data.push({
-        date: date,
-        value: value
-      });
-    }
-
-    chart.data = data;
-
-    // Create axes
-    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    dateAxis.renderer.minGridDistance = 60;
-
-    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-
-    // Create series
-    var series = chart.series.push(new am4charts.LineSeries());
-    series.dataFields.valueY = "value";
-    series.dataFields.dateX = "date";
-    series.tooltipText = "{value}"
-
-    series.tooltip.pointerOrientation = "vertical";
-
-    chart.cursor = new am4charts.XYCursor();
-    chart.cursor.snapToSeries = series;
-    chart.cursor.xAxis = dateAxis;
-
-    //chart.scrollbarY = new am4core.Scrollbar();
-    chart.scrollbarX = new am4core.Scrollbar();
-
-
-  }); // end am4core.ready()
-</script>
-
-<script>
   $('#loader').hide();
   $('.nav-item').removeClass('active border rounded');
   $('#coursesTab').addClass('active border rounded');
+
+  var courseInfo = <%- JSON.stringify(courseInfo) %>;
+  console.log(courseInfo);
+
+  $('.courseTitle').text(courseInfo[0].course_name + ' - ' + courseInfo[0].subject + courseInfo[0].number);
+  $('.courseTitle').attr('id', courseInfo[0].courseID);
+
+  // get unique instructors
+  var instructorsAndId = {};
+  for (i in courseInfo) {
+    instructorsAndId[courseInfo[i].instructor] = courseInfo[i].instructor_id;
+  }
+
+  // add to dropdown
+  for (const [name, id] of Object.entries(instructorsAndId)) {
+    $('#instructorSelect').append(`<option value="${id}"> 
+                                        ${name} 
+                                  </option>`); 
+  }
+
+  // get unique terms
+  var terms = {};
+  for (i in courseInfo) {
+    terms[courseInfo[i].semester + " " + courseInfo[i].year] = "";
+  }
+
+  // add to dropdown
+  for (const [term, val] of Object.entries(terms)) {
+    $('#termSelect').append(`<option value="${term}"> 
+                                        ${term} 
+                            </option>`); 
+  }
+
+  var grades = constructGrades(null, null);
+
+  /* CHARTS SECTION */
+  // PIE chart
+  am4core.ready(function () {
+
+  // Themes begin
+  am4core.useTheme(am4themes_animated);
+  // Themes end
+
+  // Create chart instance
+  var chart = am4core.create("pieChart", am4charts.PieChart);
+
+  // Add data
+  chart.data = grades;
+
+  // Add and configure Series
+  var pieSeries = chart.series.push(new am4charts.PieSeries());
+  pieSeries.dataFields.value = "num";
+  pieSeries.dataFields.category = "grade";
+  pieSeries.slices.template.stroke = am4core.color("#fff");
+  pieSeries.slices.template.strokeOpacity = 1;
+
+  // This creates initial animation
+  pieSeries.hiddenState.properties.opacity = 1;
+  pieSeries.hiddenState.properties.endAngle = -90;
+  pieSeries.hiddenState.properties.startAngle = -90;
+
+  // Display percentage
+  chart.hiddenState.properties.radius = am4core.percent(1);
+
+  // Add legend
+  chart.legend = new am4charts.Legend();
+
+
+  // BAR CHART HERE
+  var chart = am4core.create("barChart", am4charts.XYChart);
+
+  var data = [];
+  var value = 50;
+  for (var i = 0; i < 300; i++) {
+    var date = new Date();
+    date.setHours(0, 0, 0, 0);
+    date.setDate(i);
+    value -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
+    data.push({
+      date: date,
+      value: value
+    });
+  }
+
+  chart.data = data;
+
+  // Create axes
+  var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+  dateAxis.renderer.minGridDistance = 60;
+
+  var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+  // Create series
+  var series = chart.series.push(new am4charts.LineSeries());
+  series.dataFields.valueY = "value";
+  series.dataFields.dateX = "date";
+  series.tooltipText = "{value}"
+
+  series.tooltip.pointerOrientation = "vertical";
+
+  chart.cursor = new am4charts.XYCursor();
+  chart.cursor.snapToSeries = series;
+  chart.cursor.xAxis = dateAxis;
+
+  //chart.scrollbarY = new am4core.Scrollbar();
+  chart.scrollbarX = new am4core.Scrollbar();
+
+
+  }); // end am4core.ready()
+
+
+
+
+  function constructGrades(instructorId, term) {
+    var numA = 0;
+    var numAB = 0;
+    var numB = 0;
+    var numBC = 0;
+    var numC = 0;
+    var numD = 0;
+    var numF = 0;
+    if (instructorId == null && term == null) {
+      for (i in courseInfo) {
+        numA += courseInfo[i].numA;
+        numAB += courseInfo[i].numAB;
+        numB += courseInfo[i].numB;
+        numBC += courseInfo[i].numBC;
+        numC += courseInfo[i].numC;
+        numD += courseInfo[i].numD;
+        numF += courseInfo[i].numF;
+      }
+    }
+
+    return [
+      {
+      "grade": "A",
+      "num": numA
+      },
+      {
+        "grade": "AB",
+        "num": numAB
+      },
+      {
+        "grade": "B",
+        "num": numB
+      },
+      {
+        "grade": "BC",
+        "num": numBC
+      },
+      {
+        "grade": "C",
+        "num": numC
+      },
+      {
+        "grade": "D",
+        "num": numD
+      },
+      {
+        "grade": "F",
+        "num": numF
+      },
+    ]
+  }
 </script>
 
 <%- include('./partials/footer'); %>

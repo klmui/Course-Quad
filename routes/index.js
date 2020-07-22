@@ -52,6 +52,10 @@ router.get('/', function(req, res) {
   });
 });
 
+router.get('/profile', (req, res) => {
+  res.render('profile');
+});
+
 // =================================================================================
 // AUTH ROUTES
 // =================================================================================
@@ -81,15 +85,59 @@ router.post('/login', function(req, res) {
     group by c.courseID;
   `;
   // get the username and password from the request (comes from the name attr of the input)
-  connection.query(query, function(error, rows, fields) {
+  connection.query(query, async function(error, rows, fields) {
     if (error) {
-      console.log('Error in test query');
+      console.log('Error in query');
     } else {
       var user = {"username": req.body.username, "password": req.body.password};
       console.log("username:" + user.username + ", password: " + "secret");
-    
-      // render the home page and change the name to the email
-      res.render('index', {email: user.username, 'courses': rows});
+
+      if (!user.username || !user.password) {
+        // bad request
+        return res.status(400).render('index', {
+          message: 'Please provide a username and password.'
+        });
+      }
+
+      var query = `
+        SELECT * 
+        FROM User
+        WHERE username = ?;
+      `;
+      var values = [
+        [user.username]
+      ];
+      connection.query(query, [values], async (err, results) => {
+        console.log(results);
+        if (!results || (!await bcrypt.compare(user.password, results[0].password))) {
+          // 401 is forbidden
+          res.status(401).render('index', {
+            message: 'Username or password is incorrect.',
+            'courses': rows
+          });
+        } else {
+          const username = results[0].username;
+
+          // create token and insert cookie
+          const token = jwt.sign({ username: username }, process.env.JWT_SECRET, {
+              expiresIn: process.env.JWT_EXPIRES_IN
+          });
+
+          const cookieOptions = {
+            expires: new Date(
+              Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+            ),
+            httpOnly: true
+          }
+          
+          // can specify any name for cookie
+          res.cookie('jwt', token, cookieOptions);
+
+          console.log(token);
+          // render the home page and change the name to the email
+          res.render('index', {name: user.username, 'courses': rows});
+        } 
+      });
     }
   });
 });
@@ -120,7 +168,7 @@ router.post('/signup', function(req, res){
   `;
   connection.query(query, async function(error, rows, fields) {
     if (error) {
-      console.log('Error in test query');
+      console.log('Error in query');
     } else {
        // get the username and password from the request
       var newUser = {"username": req.body.username, "password": req.body.password, "email": req.body.email};
@@ -140,9 +188,31 @@ router.post('/signup', function(req, res){
         if (err) {
           console.log(err);
           console.log("Error signing up. Duplicate username.");
+          res.status(401).render('index', {
+            message: 'Error signing up. Username is already taken.',
+            'courses': rows
+          });
         } else {
           console.log(results);
-          res.render('index', {name: newUser.username, 'courses': rows});
+
+          // create token and insert cookie
+            const token = jwt.sign({ username: username }, process.env.JWT_SECRET, {
+              expiresIn: process.env.JWT_EXPIRES_IN
+          });
+
+          const cookieOptions = {
+            expires: new Date(
+              Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+            ),
+            httpOnly: true
+          }
+          
+          // can specify any name for cookie
+          res.cookie('jwt', token, cookieOptions);
+
+          console.log(token);
+          // render the home page and change the name to the email
+          res.render('index', {name: user.username, 'courses': rows});
         }
       });
     }

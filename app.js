@@ -5,7 +5,8 @@ var express    = require('express'),
     mysql      = require('mysql'),
     redis      = require('redis'),
     jwt        = require('jsonwebtoken'),
-    bcrypt     = require('bcryptjs')
+    bcrypt     = require('bcryptjs'),
+    cookieParser = require('cookie-parser'),
     // routes
     courseRoutes = require('./routes/course'),
     instructorRoutes = require('./routes/instructors'),
@@ -19,11 +20,13 @@ const REDIS_PORT = process.env.REDIS_PORT || 6379;
 //const client = redis.createClient(REDIS_PORT);
 //global.client = client;
 global.bcrypt = bcrypt;
+global.jwt = jwt;
 
 // more init
 var app = express(); // initializes express instance from the var above
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 var connection = mysql.createConnection({
   host: 'course-quad-db.czncdgwxrcel.us-east-2.rds.amazonaws.com',
