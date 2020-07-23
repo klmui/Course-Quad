@@ -21,18 +21,18 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><a href="#">Colin Dewey</a></td>
-                  <td>7/19/2020</td>
-                  <td>
-                    <span class="fa fa-star fa-xs checked"></span>
-                    <span class="fa fa-star fa-xs checked"></span>
-                    <span class="fa fa-star fa-xs checked"></span>
-                    <span class="fa fa-star fa-xs checked"></span>
-                    <span class="fa fa-star fa-xs checked"></span>
-                  </td>
-                  <td>Tough professor, but he's very inspirational!</td>
-                </tr>
+                <% for (var i = 0; i < instructorReviews.length; i++) { %>
+                  <tr>
+                    <td><a href="/instructors/<%=instructorReviews[i].instructorID%>"><%=instructorReviews[i].name%></a></td>
+                    <td><%= instructorReviews[i].date.toString().substring(0, 15) %></td>
+                    <td>
+                      <% for (var j = 0; j < instructorReviews[i].stars; j++) { %>
+                        <span class="fa fa-star fa-xs checked"></span>
+                      <% } %>
+                    </td>
+                    <td><%= instructorReviews[i].comment %></td>
+                  </tr>
+                <% } %>
               </tbody>
             </table>
           </div>

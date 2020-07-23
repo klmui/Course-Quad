@@ -28,7 +28,7 @@ router.get('/', authController.isLoggedIn, function(req, res) {
   `;
   connection.query(query, function(error, rows, fields) {
     if (error) {
-      console.log('Error in test query');
+      console.log('Error in query');
     } else {
       res.render('index', {"courses": rows, "user": req.user});
       //console.log(rows);

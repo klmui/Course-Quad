@@ -17,22 +17,24 @@
                   <th>Name</th>
                   <th>Date</th>
                   <th>Rating</th>
+                  <th>Difficulty</th>
                   <th>Review</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><a href="#">Introduction to Bioinformatics</a></td>
-                  <td>7/19/2020</td>
-                  <td>
-                    <span class="fa fa-star fa-xs checked"></span>
-                    <span class="fa fa-star fa-xs checked"></span>
-                    <span class="fa fa-star fa-xs checked"></span>
-                    <span class="fa fa-star fa-xs checked"></span>
-                    <span class="fa fa-star fa-xs checked"></span>
-                  </td>
-                  <td>Tough class, but it's super interesting!</td>
-                </tr>
+                <% for (var i = 0; i < courseReviews.length; i++) { %>
+                  <tr>
+                    <td><a href="/courses/<%=courseReviews[i].course_id%>"><%= courseReviews[i].name %></a></td>
+                    <td><%= courseReviews[i].date.toString().substring(0, 15) %></td>
+                    <td>
+                      <% for (var j = 0; j < courseReviews[i].stars; j++) { %>
+                        <span class="fa fa-star fa-xs checked"></span>
+                      <% } %>
+                    </td>
+                    <td><%= courseReviews[i].difficulty %></td>
+                    <td><%= courseReviews[i].name %></td>
+                  </tr>
+                <% } %>
               </tbody>
             </table>
           </div>
