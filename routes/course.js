@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var authController = require('../controllers/auth');
 
 // show a particular course
-router.get("/:courseID", (req, res) => {
+router.get("/:courseID", authController.isLoggedIn, (req, res) => {
   var courseID = req.params.courseID;
   var query = 
   `
@@ -42,7 +43,7 @@ router.get("/:courseID", (req, res) => {
     if (error) {
       console.log("Error in query");
     } else {
-      res.render('course', {'courseInfo': rows});
+      res.render('course', {'courseInfo': rows, 'user': req.user});
     }
   });
 });

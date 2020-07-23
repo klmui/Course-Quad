@@ -79,14 +79,14 @@
     <div id="sidebar-wrapper">
       <ul class="sidebar-nav">
         <!-- javacript logic -->
-        <% if (typeof name != "undefined") { %>
+        <% if (typeof user != "undefined") { %>
         <li>
           <a href="/profile" class='text-center' id="account">
-            <% if (name.length >= 19) { %>
-              <!-- render email passed into page to screen -->
-              <%= name.substring(0, 19) %>...
+            <% if (user.username.length >= 19) { %>
+              <!-- render username passed into page to screen -->
+              <%= user.username.substring(0, 19) %>...
               <% } else { %>
-              <%= name %>
+                <%= user.username %>
             <% } %>
           </a>
         </li>
@@ -113,12 +113,12 @@
         </hr>
         <li><a href="#" id="settings"><i class="fas fa-cog"></i> <span class="pl-2">Settings</span></a></li>
         <% } %>
-        <% if (typeof name == "undefined") { %>
+        <% if (typeof user == "undefined") { %>
         <li><a href="#" id="login" data-toggle="modal" data-target="#loginModal" style="margin-top: 32px;"><i class="fas fa-sign-in-alt"></i>
             <span class="pl-2">Login</span></a>
         </li>
         <% } %>
-        <% if (typeof name != "undefined") { %>
+        <% if (typeof user != "undefined") { %>
           <li><a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> <span class="pl-2">Logout</span></a>
         <% } else { %>
           <li><a href="#" id="signup" data-toggle="modal" data-target="#signUpModal"><i class="fas fa-sign-out-alt"></i>

@@ -1,8 +1,9 @@
 var express = require("express");
 var router  = express.Router();
+var authController = require('../controllers/auth');
 
 // root route - render home page
-router.get('/', function(req, res) {
+router.get('/', authController.isLoggedIn, function(req, res) {
   // try {
   //   connection.query("SELECT * FROM Course", function(error, rows, fields) {
   //     if (error) {
@@ -46,14 +47,19 @@ router.get('/', function(req, res) {
     if (error) {
       console.log('Error in test query');
     } else {
-      res.render('index', {"courses": rows});
+      res.render('index', {"courses": rows, "user": req.user});
       console.log(rows);
     }
   });
 });
 
-router.get('/profile', (req, res) => {
-  res.render('profile');
+// load profile page
+router.get('/profile', authController.isLoggedIn, (req, res) => {
+  if (req.user) {
+    res.render('profile', {"user": req.user});
+  } else {
+    res.redirect('/');
+  }
 });
 
 // =================================================================================
@@ -118,11 +124,12 @@ router.post('/login', function(req, res) {
         } else {
           const username = results[0].username;
 
-          // create token and insert cookie
+          // create token
           const token = jwt.sign({ username: username }, process.env.JWT_SECRET, {
               expiresIn: process.env.JWT_EXPIRES_IN
           });
 
+          // create cookie
           const cookieOptions = {
             expires: new Date(
               Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
@@ -130,7 +137,7 @@ router.post('/login', function(req, res) {
             httpOnly: true
           }
           
-          // can specify any name for cookie
+          // can specify any name for cookie - insert cookie
           res.cookie('jwt', token, cookieOptions);
 
           console.log(token);
@@ -196,7 +203,7 @@ router.post('/signup', function(req, res){
           console.log(results);
 
           // create token and insert cookie
-            const token = jwt.sign({ username: username }, process.env.JWT_SECRET, {
+          const token = jwt.sign({ username: username }, process.env.JWT_SECRET, {
               expiresIn: process.env.JWT_EXPIRES_IN
           });
 
@@ -208,6 +215,7 @@ router.post('/signup', function(req, res){
           }
           
           // can specify any name for cookie
+          // need to decode the token to get username
           res.cookie('jwt', token, cookieOptions);
 
           console.log(token);
