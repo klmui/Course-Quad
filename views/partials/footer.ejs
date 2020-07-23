@@ -71,22 +71,30 @@
       var courses = <%- JSON.stringify(courses) %>;
       for (var key in courses) {
         var data = []
-        data.push("Sub");
-        data.push("<a href=\"/courses/" + courses[key].courseID + "\">" + courses[key].name + "</a>");
-        data.push(`<span class="fa fa-star fa-xs checked"></span>
+        data.push(courses[key].subject + " " + courses[key].course_number);
+        data.push("<a href=\"/courses/" + courses[key].courseID + "\">" + courses[key].course_name + "</a>");
+        if (courses[key].rating == null) {
+          data.push("No ratings yet");
+        } else {
+          data.push(`<span class="fa fa-star fa-xs checked"></span>
                       <span class="fa fa-star fa-xs checked"></span>
                       <span class="fa fa-star fa-xs checked"></span>
                       <span class="fa fa-star fa-xs checked"></span>
                       <span class="fa fa-star fa-xs checked"></span>`);
-        data.push("5");
-        data.push("3.0");
-        data.push("5");
-        data.push("5");
-        data.push("5");
-        data.push("5");
-        data.push("5");
-        data.push("5");
-        data.push("5");
+        }
+        if (courses[key].difficulty == null) {
+          data.push("No data yet");
+        } else {
+          data.push("5");
+        }
+        data.push(courses[key].numOfGradeDistributions);
+        data.push(courses[key].total_numA);
+        data.push(courses[key].total_numAB);
+        data.push(courses[key].total_numB);
+        data.push(courses[key].total_numBC);
+        data.push(courses[key].total_numC);
+        data.push(courses[key].total_numD);
+        data.push(courses[key].total_numF);
 
         dataset.push(data);
       }
@@ -97,7 +105,7 @@
           { title: "Course"},
           { title: "Rating"},
           { title: "Difficulty"},
-          { title: "GPA"},
+          { title: "# Grade Distributions"},
           { title: "A's"},
           { title: "AB's"},
           { title: "B's"},

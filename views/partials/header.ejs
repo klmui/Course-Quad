@@ -79,14 +79,14 @@
     <div id="sidebar-wrapper">
       <ul class="sidebar-nav">
         <!-- javacript logic -->
-        <% if (typeof email != "undefined") { %>
+        <% if (typeof user != "undefined") { %>
         <li>
-          <a href="#" class='text-center' id="account">
-            <% if (email.length >= 19) { %>
-              <!-- render email passed into page to screen -->
-              <%= email.substring(0, 19) %>...
+          <a href="/profile" class='text-center' id="account">
+            <% if (user.username.length >= 19) { %>
+              <!-- render username passed into page to screen -->
+              <%= user.username.substring(0, 19) %>...
               <% } else { %>
-              <%= email %>
+                <%= user.username %>
             <% } %>
           </a>
         </li>
@@ -113,18 +113,18 @@
         </hr>
         <li><a href="#" id="settings"><i class="fas fa-cog"></i> <span class="pl-2">Settings</span></a></li>
         <% } %>
-        <% if (typeof email == "undefined") { %>
+        <% if (typeof user == "undefined") { %>
         <li><a href="#" id="login" data-toggle="modal" data-target="#loginModal" style="margin-top: 32px;"><i class="fas fa-sign-in-alt"></i>
             <span class="pl-2">Login</span></a>
         </li>
         <% } %>
-        <% if (typeof email != "undefined") { %>
-        <li><a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> <span class="pl-2">Logout</span></a>
-          <% } else { %>
-        <li><a href="#" id="signup" data-toggle="modal" data-target="#signUpModal"><i class="fas fa-sign-out-alt"></i>
+        <% if (typeof user != "undefined") { %>
+          <li><a href="/logout" id="logout"><i class="fas fa-sign-out-alt"></i> <span class="pl-2">Logout</span></a>
+        <% } else { %>
+          <li><a href="#" id="signup" data-toggle="modal" data-target="#signUpModal"><i class="fas fa-sign-out-alt"></i>
             <span class="pl-2">Register</span></a>
-          <% } %>
-        </li>
+          </li>
+        <% } %>
       </ul>
     </div>
 
@@ -144,7 +144,7 @@
               <div class="md-form mt-4 form-group">
                 <i class="fas fa-user prefix grey-text"></i>
                 <label data-error="wrong" data-success="right" for="defaultForm-email-signin">Username</label>
-                <input type="email" id="defaultForm-email-signin" name="username" class="form-control validate"
+                <input type="text" id="defaultForm-email-signin" name="username" class="form-control validate"
                   placeholder="johnsmith@example.com" required>
               </div>
 
@@ -182,8 +182,15 @@
               <div class="md-form mt-4 form-group">
                 <i class="fas fa-user prefix grey-text"></i>
                 <label data-error="wrong" data-success="right" for="defaultForm-email-signup">Enter Email</label>
-                <input type="email" id="defaultForm-email-signup" name="username" class="form-control validate"
+                <input type="email" id="defaultForm-email-signup" name="email" class="form-control validate"
                   placeholder="johnsmith@email.com" required>
+              </div>
+
+              <div class="md-form mt-4 form-group">
+                <i class="fas fa-user prefix grey-text"></i>
+                <label data-error="wrong" data-success="right" for="defaultForm-email-signup">Enter username</label>
+                <input type="text" id="defaultForm-email-signup" name="username" class="form-control validate"
+                  placeholder="johnsmith" required>
               </div>
 
               <div class="md-form form-group">
