@@ -89,53 +89,79 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                <div class="accordion" id="accordionExample">
-                  <div class="card">
-                    <div class="" id="headingOne" style="background-color: #F2F2F2;">
-                      <h2 class="mb-0">
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
-                          aria-expanded="true" aria-controls="collapseOne">
-                          CS 564 Study Group
-                        </button>
-                      </h2>
-                    </div>
+            <% for (var i = 0; i < studyGroups.length; i++) { %>
+              <tr>
+                <td>
+                  <div class="accordion" id="accordionExample">
+                    <div class="card">
+                      <div class="" id="headingOne" style="background-color: #F2F2F2;">
+                        <h2 class="mb-0">
+                          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                            aria-expanded="true" aria-controls="collapseOne" id="studyGroupName<%=studyGroups[i].ID%>">
+                            <%= studyGroups[i].name %>
+                          </button>
+                        </h2>
+                      </div>
 
-                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                      <div class="card-body">
-                        <table>
-                          <tr>
-                            <td>Kenny</td>
-                            <td>klmui@wisc.edu</td>
-                          </tr>
-                          <tr>
-                            <td>Nate</td>
-                            <td>nategoethel@wisc.edu</td>
-                          </tr>
-                          <tr>
-                            <td>Saniya</td>
-                            <td>skhullar2@wisc.edu</td>
-                          </tr>
-                        </table>
+                      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">
+                          <table id="usersTable<%=studyGroups[i].ID%>">
+        
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </td>
-              <td>Summer 2020</td>
-              <td>Hi everyone! We meet on Friday evenings!</td>
-              <td><i class="fa fa-check" aria-hidden="true"></i></td>
-              <td><i class="fa fa-check" aria-hidden="true"></i></td>
-              <td><i class="fa fa-times" aria-hidden="true"></i></td>
-              <td><i class="fa fa-check" aria-hidden="true"></i></td>
-              <td><i class="fa fa-check" aria-hidden="true"></i></td>
-              <td><i class="fa fa-times" aria-hidden="true"></i></td>
-              <td><i class="fa fa-times" aria-hidden="true"></i></td>
-              <td>
-                <btn class="btn btn-primary btn" title="Ask to join"><i class="far fa-envelope"></i></btn>
-              </td>
-            </tr>
+                </td>
+                <td><%= studyGroups[i].Term %></td>
+                <td><%= studyGroups[i].Description %></td></td>
+                <% if (studyGroups[i].Monday == 'Y') { %>
+                  <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                <% } else { %>
+                  <td><i class="fa fa-times" aria-hidden="true"></i></td>
+                <% } %>
+
+                <% if (studyGroups[i].Tuesday == 'Y') { %>
+                  <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                <% } else { %>
+                  <td><i class="fa fa-times" aria-hidden="true"></i></td>
+                <% } %>
+
+                <% if (studyGroups[i].Wednesday == 'Y') { %>
+                  <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                <% } else { %>
+                  <td><i class="fa fa-times" aria-hidden="true"></i></td>
+                <% } %>
+
+                <% if (studyGroups[i].Thursday == 'Y') { %>
+                  <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                <% } else { %>
+                  <td><i class="fa fa-times" aria-hidden="true"></i></td>
+                <% } %>
+
+                <% if (studyGroups[i].Friday == 'Y') { %>
+                  <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                <% } else { %>
+                  <td><i class="fa fa-times" aria-hidden="true"></i></td>
+                <% } %>
+
+                <% if (studyGroups[i].Saturday == 'Y') { %>
+                  <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                <% } else { %>
+                  <td><i class="fa fa-times" aria-hidden="true"></i></td>
+                <% } %>
+
+                <% if (studyGroups[i].Sunday == 'Y') { %>
+                  <td><i class="fa fa-check" aria-hidden="true"></i></td>
+                <% } else { %>
+                  <td><i class="fa fa-times" aria-hidden="true"></i></td>
+                <% } %>
+
+                <td>
+                  <btn class="btn btn-primary btn askToJoin" title="Ask to join" id="<%= studyGroups[i].ID %>"><i class="far fa-envelope"></i></btn>
+                </td>
+              </tr>
+            <% } %>
           </tbody>
         </table>
       </div>
@@ -145,7 +171,39 @@
 
 <script>
   $('#loader').hide();
+
+  var users = <%- JSON.stringify(users) %>;
+  // load users into users table
+  for (i in users) {
+    var user = users[i];
+    if (user.sort_order == '1') {
+      // owner
+      $('#usersTable' + user.ID).append(`
+                           <tr>
+                              <td>${user.username}</td>
+                              <td id='organizer${user.ID}'>${user.email}</td>
+                              <td>Organizer</td>
+                            </tr>
+      `);
+    } else {
+      $('#usersTable' + user.ID).append(`
+                           <tr>
+                              <td>${user.username}</td>
+                              <td>${user.email}</td>
+                            </tr>
+      `);
+    }
+  }
   
+  $('.askToJoin').on('click', function() {
+    var studyGroupID = $(this).attr('id');
+    var studyGroupName = $('#studyGroupName' + studyGroupID).text();
+    var email = $('#organizer' + studyGroupID).text();
+    var subject = "CourseQuad Study Group Request";
+    var emailBody = "Hi there! I am looking to join " + studyGroupName.trim() + ". My username is <USERNAME>. Thank you!";
+    document.location = "mailto:"+email+"?subject="+subject+"&body="+emailBody;
+  });
+
   $('.nav-item').removeClass('active border rounded');
 </script>
 
