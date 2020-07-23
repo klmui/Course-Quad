@@ -91,37 +91,56 @@
                 <span class="fa fa-star starClick3 starClick fa-lg" onclick="starClick(3)"></span>
                 <span class="fa fa-star starClick4 starClick fa-lg" onclick="starClick(4)"></span>
                 <span class="fa fa-star starClick5 starClick fa-lg" onclick="starClick(5)"></span>
+
+                <select class="custom-select mb-2" id="difficultySelect" style="background-color: #adadad; width: 40%; float:right;">
+                  <option selected>Difficulty</option>
+                  <option val='1'>1</option>
+                  <option val='2'>2</option>
+                  <option val='3'>3</option>
+                  <option val='4'>4</option>
+                  <option val='5'>5</option>
+                </select>
               <textarea class="form-control" id="reviewTextArea" rows="3"></textarea>
               <div class="d-flex flex-row-reverse">
                 <btn class="btn btn-primary mt-1 mb-4">Submit</btn>
               </div>
             </div>
           </div>
-          <div class="row mb-4">
-            <div class="col-md-3">
-              <div>
-                <span class="fa fa-star fa-sm"></span>
-                <span class="fa fa-star fa-sm"></span>
-                <span class="fa fa-star fa-sm"></span>
-                <span class="fa fa-star fa-sm"></span>
-                <span class="fa fa-star fa-sm"></span>
-              </div>
-              <div>
-                <small>Review by: </strong><strong>Kenny</strong></small>
-              </div>
-              <div>
-                <small><em>Written on: </em></small>
-              </div>
-              <div>
-                <btn class='btn btn-warning btn-xs'>Edit</btn>
-                <btn class='btn btn-danger btn-xs'>Delete</btn>
-              </div>
-            </div>
 
-            <div class="col-md-9">
-              <p style="word-wrap: break-word;">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+          <!-- start of reviews section -->
+          <% for (var i = 0; i < courseReviews.length; i++) { %>
+            <div class="row mb-4">
+                <div class="col-md-5">
+
+                  <div>
+                    
+                    <% for (var j = 0; j < courseReviews[i].stars; j++) { %>
+                      <span class="fa fa-star fa-sm checked"></span>
+                    <% } %>
+
+                  </div>
+                  <div>
+                    <small><em>Difficulty: <%= courseReviews[i].difficulty %></em></small>
+                  </div>
+                  <div>
+                    <small>Review by: <strong><%= courseReviews[i].username %></strong></small>
+                  </div>
+                  <div>
+                    <small><em>Written on: <%= courseReviews[i].date.toString().substring(0, 15) %></em></em></small>
+                  </div>
+                  <% if (courseReviews[i].username == user.username) { %>
+                    <div>
+                      <btn class='btn btn-warning btn-xs'>Edit</btn>
+                      <btn class='btn btn-danger btn-xs'>Delete</btn>
+                    </div>
+                  <% } %>
+                </div>
+
+                <div class="col-md-7">
+                  <p style="word-wrap: break-word;"><%= courseReviews[i].comment %></p>
+                </div>
             </div>
-          </div>
+          <% } %>
         </div>
       </div>
     </div>

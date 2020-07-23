@@ -74,8 +74,21 @@ router.get("/:courseID", authController.isLoggedIn, (req, res) => {
       group by date(r.date); # -1 if null
       `
       connection.query(query2, function(error, rows2, fields) {
-        console.log(rows2)
-        res.render('course', {'courseInfo': rows, 'user': req.user, 'courseRating': rows2});
+        if (error) {
+          console.log("error in query");
+        } else {
+          var query3 = `
+          SELECT comment, stars, difficulty, username, date(date) as date, year FROM CourseRating WHERE course_id='${courseID}';
+          `;
+          connection.query(query3, function(error, rows3, fields) {
+            if (error) {
+              console.log("error in query");
+            } else {
+              console.log(rows3);
+              res.render('course', {'courseInfo': rows, 'user': req.user, 'courseRating': rows2, "courseReviews": rows3});
+            }
+          });
+        }
       });
     }
   });
