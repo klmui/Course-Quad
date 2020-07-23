@@ -14,6 +14,7 @@
     "mysql": "^2.18.1",
     "nodemon": "^2.0.4",
     "redis": "^3.0.2",
+    "sass": "^1.26.10",
     "sortablejs": "^1.10.2"
   },
   "devDependencies": {},

@@ -51,6 +51,9 @@ body {
 .checked {
   color: orange;
 }
+.realChecked {
+  color: orange;
+}
 
 .btn-group-xs > .btn, .btn-xs {
   padding: .25rem .4rem;
@@ -95,4 +98,8 @@ body {
 
 .arrows:hover {
   color: darkorange;
+}
+
+.starClick:hover {
+  cursor: pointer;
 }

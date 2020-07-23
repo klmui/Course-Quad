@@ -17,6 +17,7 @@ Install the following:
 1. Node.js
 2. MySQL
 3. XAMPP
+4. Redis
 ```
 ### Installing
 1. Clone the repository

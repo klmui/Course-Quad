@@ -86,12 +86,11 @@
             <div class="form-group mt-3">
               <label for="reviewTextArea">Write your review, tips, or any comments</label>
               <div style="margin: 0 auto;">
-                <span class="fa fa-star fa-lg checked"></span>
-                <span class="fa fa-star fa-lg checked"></span>
-                <span class="fa fa-star fa-lg checked"></span>
-                <span class="fa fa-star fa-lg checked"></span>
-                <span class="fa fa-star fa-lg checked"></span>
-              </div>
+                <span class="fa fa-star starClick1 starClick fa-lg" onclick="starClick(1)"></span>
+                <span class="fa fa-star starClick2 starClick fa-lg" onclick="starClick(2)"></span>
+                <span class="fa fa-star starClick3 starClick fa-lg" onclick="starClick(3)"></span>
+                <span class="fa fa-star starClick4 starClick fa-lg" onclick="starClick(4)"></span>
+                <span class="fa fa-star starClick5 starClick fa-lg" onclick="starClick(5)"></span>
               <textarea class="form-control" id="reviewTextArea" rows="3"></textarea>
               <div class="d-flex flex-row-reverse">
                 <btn class="btn btn-primary mt-1 mb-4">Submit</btn>
@@ -101,11 +100,11 @@
           <div class="row mb-4">
             <div class="col-md-3">
               <div>
-                <span class="fa fa-star fa-sm checked"></span>
-                <span class="fa fa-star fa-sm checked"></span>
-                <span class="fa fa-star fa-sm checked"></span>
-                <span class="fa fa-star fa-sm checked"></span>
-                <span class="fa fa-star fa-sm checked"></span>
+                <span class="fa fa-star fa-sm"></span>
+                <span class="fa fa-star fa-sm"></span>
+                <span class="fa fa-star fa-sm"></span>
+                <span class="fa fa-star fa-sm"></span>
+                <span class="fa fa-star fa-sm"></span>
               </div>
               <div>
                 <small>Review by: </strong><strong>Kenny</strong></small>
@@ -311,6 +310,83 @@
       },
     ]
   }
+
+  function starClick(numStars) {
+    $('.starClick').each(function() {
+      $(this).removeClass('realChecked');
+    });
+
+    $('.starClick').each(function(i) {
+      if (i < numStars) {
+        $(this).addClass('realChecked');
+      }
+    });
+  }
+
+  $('.starClick1').hover(function() {
+    $('.starClick').each(function() {
+      $(this).removeClass('checked');
+    });
+    $(this).addClass('checked');
+  }, function() {
+    $('.starClick').each(function() {
+      $(this).removeClass('checked');
+    })
+  });
+
+  $('.starClick2').hover(function() {
+    $('.starClick').each(function() {
+      $(this).removeClass('checked');
+    });
+    $('.starClick1').addClass('checked');
+    $(this).addClass('checked');
+  }, function() {
+    $('.starClick').each(function() {
+      $(this).removeClass('checked');
+    })
+  });
+
+  $('.starClick3').hover(function() {
+    $('.starClick').each(function() {
+      $(this).removeClass('checked');
+    });
+    $('.starClick1').addClass('checked');
+    $('.starClick2').addClass('checked');
+    $(this).addClass('checked');
+  }, function() {
+    $('.starClick').each(function() {
+      $(this).removeClass('checked');
+    })
+  });
+
+  $('.starClick4').hover(function() {
+    $('.starClick').each(function() {
+      $(this).removeClass('checked');
+    });
+    $('.starClick1').addClass('checked');
+    $('.starClick2').addClass('checked');
+    $('.starClick3').addClass('checked');
+    $(this).addClass('checked');
+  }, function() {
+    $('.starClick').each(function() {
+      $(this).removeClass('checked');
+    })
+  });
+
+  $('.starClick5').hover(function() {
+    $('.starClick').each(function() {
+      $(this).removeClass('checked');
+    });
+    $('.starClick1').addClass('checked');
+    $('.starClick2').addClass('checked');
+    $('.starClick3').addClass('checked');
+    $('.starClick4').addClass('checked');
+    $(this).addClass('checked');
+  }, function() {
+    $('.starClick').each(function() {
+      $(this).removeClass('checked');
+    })
+  });
 </script>
 
 <%- include('./partials/footer'); %>
