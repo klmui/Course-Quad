@@ -12,14 +12,14 @@
         
         <div class='row mt-4 mb-3'>
           <div class="d-flex d-inline-block" style="margin: 0 auto;">
-            <span class="fa fa-star fa-2x checked"></span>
-            <span class="fa fa-star fa-2x checked"></span>
-            <span class="fa fa-star fa-2x checked"></span>
-            <span class="fa fa-star fa-2x"></span>
-            <span class="fa fa-star fa-2x"></span>
-            <em class="align-self-center">(Total Reviews: 5000+)</em>
+            <span class="fa fa-star fa-2x reviewRating"></span>
+            <span class="fa fa-star fa-2x reviewRating"></span>
+            <span class="fa fa-star fa-2x reviewRating"></span>
+            <span class="fa fa-star fa-2x reviewRating"></span>
+            <span class="fa fa-star fa-2x reviewRating"></span>
+            <em class="align-self-center"><span class="totalReviewsTitle"></span></em>
             
-            <h5 class="align-self-center mb-0" style="margin-left: 50px;">Difficulty: 5.0</h5>
+            <h5 class="align-self-center mb-0" style="margin-left: 50px;">Difficulty: <span class="difficultyTitle"></span></h5>
           </div>
         </div>
 
@@ -89,8 +89,8 @@
                 <span class="fa fa-star fa-lg checked"></span>
                 <span class="fa fa-star fa-lg checked"></span>
                 <span class="fa fa-star fa-lg checked"></span>
-                <span class="fa fa-star fa-lg"></span>
-                <span class="fa fa-star fa-lg"></span>
+                <span class="fa fa-star fa-lg checked"></span>
+                <span class="fa fa-star fa-lg checked"></span>
               </div>
               <textarea class="form-control" id="reviewTextArea" rows="3"></textarea>
               <div class="d-flex flex-row-reverse">
@@ -146,7 +146,7 @@
     instructorsAndId[courseInfo[i].instructor] = courseInfo[i].instructor_id;
   }
 
-  // add to dropdown
+  // add instructors to dropdown
   for (const [name, id] of Object.entries(instructorsAndId)) {
     $('#instructorSelect').append(`<option value="${id}"> 
                                         ${name} 
@@ -159,7 +159,7 @@
     terms[courseInfo[i].semester + " " + courseInfo[i].year] = "";
   }
 
-  // add to dropdown
+  // add terms to dropdown
   for (const [term, val] of Object.entries(terms)) {
     $('#termSelect').append(`<option value="${term}"> 
                                         ${term} 
@@ -167,6 +167,23 @@
   }
 
   var grades = constructGrades(null, null);
+
+  // Display average rating and difficulty
+  $('.difficultyTitle').text(courseInfo[0].avgDifficulty);
+  var avgRating = Math.ceil(parseInt(courseInfo[0].avgRating));
+  $('.reviewRating').each(function(i) {
+    if (i < avgRating) {
+      $(this).addClass('checked');
+    }
+  });
+
+  // Find total reviews
+  var numReviews = 0;
+  if (numReviews == 0) {
+    $('.totalReviewsTitle').text('No reviews yet');
+  } else {
+    $('.totalReviewsTitle').text(numReviews);
+  }
 
   /* CHARTS SECTION */
   // PIE chart
@@ -201,33 +218,30 @@
   chart.legend = new am4charts.Legend();
 
 
+
   // BAR CHART HERE
   var chart = am4core.create("barChart", am4charts.XYChart);
 
+  var courseRating = <%- JSON.stringify(courseRating) %>;
   var data = [];
-  var value = 50;
-  for (var i = 0; i < 300; i++) {
-    var date = new Date();
-    date.setHours(0, 0, 0, 0);
-    date.setDate(i);
-    value -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-    data.push({
-      date: date,
-      value: value
-    });
+  var termAndRating = {};
+  for (i in courseRating) {
+    termAndRating['date'] = courseRating[i].date;
+    termAndRating['avgRating'] = courseRating[i].avgRating;
+    data.push(termAndRating);
+    termAndRating = {};
   }
-
   chart.data = data;
 
   // Create axes
   var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-  dateAxis.renderer.minGridDistance = 60;
+  dateAxis.renderer.minGridDistance = 5;
 
   var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
   // Create series
   var series = chart.series.push(new am4charts.LineSeries());
-  series.dataFields.valueY = "value";
+  series.dataFields.valueY = "avgRating";
   series.dataFields.dateX = "date";
   series.tooltipText = "{value}"
 
