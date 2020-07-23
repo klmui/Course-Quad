@@ -5,7 +5,7 @@ var router = express.Router();
 var { promisify } = require('util');
 
 exports.isLoggedIn = async (req, res, next) => {
-  console.log(req.cookies);
+  //console.log(req.cookies);
 
   if (req.cookies.jwt) {
     try {
@@ -16,14 +16,14 @@ exports.isLoggedIn = async (req, res, next) => {
         cookies.jwt,
         process.env.JWT_SECRET
       ); 
-      console.log(decoded);
+      //console.log(decoded);
 
-      // 2. Check if the user still exists
+      // 2. Check if the user still exists and get user info from DB
       var query = `
         SELECT * FROM User WHERE username = ?;
       `;
       connection.query(query, [decoded.username], function(error, result) {
-        console.log(result);
+        //console.log(result);
 
         if (!result) {
           return next();
@@ -43,4 +43,14 @@ exports.isLoggedIn = async (req, res, next) => {
     // no jwt token found
     next();
   }
+}
+
+// logs user out - not middleware, just controller function
+exports.logout = async (req, res) => {
+  res.cookie('jwt', 'logout', {
+    expires: new Date(Date.now() + 2*1000),
+    httpOnly: true
+  });
+
+  res.status(200).redirect('/');
 }

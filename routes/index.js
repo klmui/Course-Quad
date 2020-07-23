@@ -4,23 +4,6 @@ var authController = require('../controllers/auth');
 
 // root route - render home page
 router.get('/', authController.isLoggedIn, function(req, res) {
-  // try {
-  //   connection.query("SELECT * FROM Course", function(error, rows, fields) {
-  //     if (error) {
-  //       console.log('Error in test query');
-  //     } else {
-  //       // set data to redis (cache)
-  //       // can set an expiration because data on server can change
-  //       client.setex("courses", 3600, JSON.stringify(rows));
-
-  //       res.render('index', {"courses": rows});
-  //       console.log(rows);
-  //     }
-  //   });
-  // } catch (err) {
-  //   console.log(err);
-  //   res.status(500); // server error
-  // }
   var query = `
     select s.abbreviation as subject, c.number as course_number, c.name as course_name, r.difficulty, c.courseID,
     r.stars,
@@ -48,7 +31,7 @@ router.get('/', authController.isLoggedIn, function(req, res) {
       console.log('Error in test query');
     } else {
       res.render('index', {"courses": rows, "user": req.user});
-      console.log(rows);
+      //console.log(rows);
     }
   });
 });
@@ -96,7 +79,6 @@ router.post('/login', function(req, res) {
       console.log('Error in query');
     } else {
       var user = {"username": req.body.username, "password": req.body.password};
-      console.log("username:" + user.username + ", password: " + "secret");
 
       if (!user.username || !user.password) {
         // bad request
@@ -124,6 +106,8 @@ router.post('/login', function(req, res) {
         } else {
           const username = results[0].username;
 
+          var userReturned = {'username': username};
+
           // create token
           const token = jwt.sign({ username: username }, process.env.JWT_SECRET, {
               expiresIn: process.env.JWT_EXPIRES_IN
@@ -142,12 +126,15 @@ router.post('/login', function(req, res) {
 
           console.log(token);
           // render the home page and change the name to the email
-          res.render('index', {name: user.username, 'courses': rows});
+          res.render('index', {"user": userReturned, 'courses': rows});
         } 
       });
     }
   });
 });
+
+// logout - runs function from controller
+router.get('/logout', authController.logout);
 
 // POST sign up info
 router.post('/signup', function(req, res){
@@ -203,7 +190,7 @@ router.post('/signup', function(req, res){
           console.log(results);
 
           // create token and insert cookie
-          const token = jwt.sign({ username: username }, process.env.JWT_SECRET, {
+          const token = jwt.sign({ username: newUser.username }, process.env.JWT_SECRET, {
               expiresIn: process.env.JWT_EXPIRES_IN
           });
 
@@ -220,7 +207,8 @@ router.post('/signup', function(req, res){
 
           console.log(token);
           // render the home page and change the name to the email
-          res.render('index', {name: user.username, 'courses': rows});
+          var userReturned = {'username': newUser.username};
+          res.render('index', {user: userReturned, 'courses': rows});
         }
       });
     }
