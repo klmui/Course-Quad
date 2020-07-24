@@ -77,7 +77,7 @@ router.get('/:id', authController.isLoggedIn, function(req, res) {
             left join InstructorRating r
             on i.instructorID = r.instructor_id
             WHERE r.comment is not null and i.instructorID=${req.params.id}
-            order by r.date;
+            order by r.date DESC;
           `;
           connection.query(query3, function(error, rows3, fields) {
             if (error) {
@@ -92,4 +92,23 @@ router.get('/:id', authController.isLoggedIn, function(req, res) {
     }
   });
 });
+
+router.post('/:id/comment', function(req, res) {
+  var query = `
+  INSERT INTO InstructorRating(instructor_id, date, stars, comment, username) VALUES ?
+  `;
+  var values = [
+    [req.body.instructor_id, req.body.date, req.body.stars, req.body.comment, req.body.username]
+  ];
+
+  connection.query(query, [values], function(err, result) {
+    if (err) {
+      console.log(err);
+      console.log("error in query");
+    } else {
+      res.send(result.insertedId);
+    }
+  });
+});
+
 module.exports = router;
