@@ -125,4 +125,21 @@ router.delete('/:id/comment', function(req, res) {
   });
 });
 
+router.put('/:id/comment', function(req, res) {
+  var query = `
+    UPDATE InstructorRating SET stars = ?, comment = ?
+    WHERE id = ?
+  `;
+  var values = [req.body.stars, req.body.comment, req.body.id];
+
+  connection.query(query, values, (error, results, fields) => {
+    if (error) {
+      console.log("error in query");
+      console.log(error);
+    } else {
+      res.send("success");
+    }
+  });
+});
+
 module.exports = router;

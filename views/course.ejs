@@ -82,7 +82,7 @@
         </div>
 
         <!-- form section -->
-        <div class="thumbnail text-muted pl-2 pr-2" style="width:75%; margin:auto; background-color: #FFF;">
+        <div id="formSection" class="thumbnail text-muted pl-2 pr-2" style="width:75%; margin:auto; background-color: #FFF;">
           <h5 class="border-bottom pt-2">Latest reviews for this course:</h5>
           <div class="caption-full">
             <div class="form-group mt-3">
@@ -123,13 +123,17 @@
 
                     <div>
 
-                      <% for (var j = 0; j < courseReviews[i].stars; j++) { %>
-                      <span class="fa fa-star fa-sm checked"></span>
+                      <% for (var j = 0; j < 5; j++) { %>
+                        <% if (j < courseReviews[i].stars) { %>
+                          <span class="fa fa-star star<%=courseReviews[i].id%> fa-sm checked"></span>
+                        <% } else { %>
+                          <span class="fa fa-star star<%=courseReviews[i].id%> fa-sm"></span>
+                        <% } %>
                       <% } %>
 
                     </div>
                     <div>
-                      <small><em>Difficulty: <%= courseReviews[i].difficulty %></em></small>
+                      <small><em class="difficulty<%=courseReviews[i].id%>">Difficulty: <%= courseReviews[i].difficulty %></em></small>
                     </div>
                     <div>
                       <small>Review by: <strong><%= courseReviews[i].username %></strong></small>
@@ -148,7 +152,7 @@
                   </div>
 
                   <div class="col-md-7">
-                    <p style="word-wrap: break-word;"><%= courseReviews[i].comment %></p>
+                    <p style="word-wrap: break-word;" class="comment<%=courseReviews[i].id%>"><%= courseReviews[i].comment %></p>
                   </div>
                 </div>
               </li>
@@ -165,6 +169,10 @@
     $('#loader').hide();
     $('.nav-item').removeClass('active border rounded');
     $('#coursesTab').addClass('active border rounded');
+    var editing = false;
+    var id;
+    var editingIndex;
+    var courseReviews = <%- JSON.stringify(courseReviews) %>;
 
     var courseInfo = <%- JSON.stringify(courseInfo) %>;
 
@@ -437,7 +445,6 @@
     $('.submitBtn').on('click', function () {
       if (validateInput()) {
         $('#loader').show();
-
         // scrape data from page
         var comment = $('#reviewTextArea').val();
         var stars = 0;
@@ -460,203 +467,125 @@
         var courseID = "<%- courseInfo[0].courseID %>";
 
         console.log(comment, stars, difficulty, username, currentDate, courseID);
+        
+        if (editing && id != null) {
+          // edit review
+          $.ajax({
+            url: '/courses/<%=courseInfo[0].courseID%>/comment',
+            type: "PUT",
+            data: {
+              'stars': stars,
+              'difficulty': difficulty,
+              'comment': comment,
+              'id': id
+            },
+            success: function(result) {
+              $('#loader').hide();
+              resetInput();
 
-        // ajax call to server to post comment
-        $.ajax({
-          url: '/courses/<%=courseInfo[0].courseID%>/comment',
-          type: "POST",
-          data: {
-            'comment': comment,
-            'stars': stars,
-            'difficulty': difficulty,
-            'username': username,
-            'date': currentDate,
-            'course_id': courseID
-          },
-          success: function(result) {
-            $('#loader').hide();
-            resetInput();
+              // Update review in list
+              $('.star' + id).each(function(i) {
+                $(this).removeClass('checked');
+              });
+              $('.star' + id).each(function(i) {
+                if (i < stars) {
+                  $(this).addClass('checked');
+                }
+              });
+              $('.comment' + id).text(comment);
+              $('.difficulty' + id).text("Difficulty: " + difficulty);
 
-            // append to reviews list
-            if (stars == 1) {
-              $('#reviewsList').prepend(`
-            <li>
-                <div class="row mb-4">
-                  <div class="col-md-5">
+              courseReviews[editingIndex].comment = comment;
+              courseReviews[editingIndex].difficulty = difficulty;
+              courseReviews[editingIndex].stars = stars;
 
-                    <div>
-
-                      <span class="fa fa-star fa-sm checked"></span>
-
-                    </div>
-                    <div>
-                      <small><em>Difficulty: ${difficulty} </em></small>
-                    </div>
-                    <div>
-                      <small>Review by: <strong>${username}</strong></small>
-                    </div>
-                    <div>
-                      <small><em>Written on: ${currentDate}</em></small>
-                    </div>
-                        <div>
-                          <btn class='btn btn-warning editBtn btn-xs' id='${result}'>Edit</btn>
-                          <btn class='btn btn-danger deleteBtn btn-xs' id='${result}'>Delete</btn>
-                        </div>
-                  </div>
-
-                  <div class="col-md-7">
-                    <p style="word-wrap: break-word;">${comment}</p>
-                  </div>
-                </div>
-              </li>
-            `).hide().fadeIn('500');
-            } else if (stars == 2) {
-              $('#reviewsList').prepend(`
-            <li>
-                <div class="row mb-4">
-                  <div class="col-md-5">
-
-                    <div>
-
-                      <span class="fa fa-star fa-sm checked"></span>
-                      <span class="fa fa-star fa-sm checked"></span>
-
-                    </div>
-                    <div>
-                      <small><em>Difficulty: ${difficulty} </em></small>
-                    </div>
-                    <div>
-                      <small>Review by: <strong>${username}</strong></small>
-                    </div>
-                    <div>
-                      <small><em>Written on: ${currentDate}</em></small>
-                    </div>
-                        <div>
-                          <btn class='btn btn-warning editBtn btn-xs' id='${result}'>Edit</btn>
-                          <btn class='btn btn-danger deleteBtn btn-xs' id='${result}'>Delete</btn>
-                        </div>
-                  </div>
-
-                  <div class="col-md-7">
-                    <p style="word-wrap: break-word;">${comment}</p>
-                  </div>
-                </div>
-              </li>
-            `).hide().fadeIn('slow');
-            } else if (stars == 3) {
-              $('#reviewsList').prepend(`
-            <li>
-                <div class="row mb-4">
-                  <div class="col-md-5">
-
-                    <div>
-
-                      <span class="fa fa-star fa-sm checked"></span>
-                      <span class="fa fa-star fa-sm checked"></span>
-                      <span class="fa fa-star fa-sm checked"></span>
-
-                    </div>
-                    <div>
-                      <small><em>Difficulty: ${difficulty} </em></small>
-                    </div>
-                    <div>
-                      <small>Review by: <strong>${username}</strong></small>
-                    </div>
-                    <div>
-                      <small><em>Written on: ${currentDate}</em></small>
-                    </div>
-                        <div>
-                          <btn class='btn btn-warning editBtn btn-xs' id='${result}'>Edit</btn>
-                          <btn class='btn btn-danger deleteBtn btn-xs' id='${result}'>Delete</btn>
-                        </div>
-                  </div>
-
-                  <div class="col-md-7">
-                    <p style="word-wrap: break-word;">${comment}</p>
-                  </div>
-                </div>
-              </li>
-            `).hide().fadeIn('slow');
-            } else if (stars == 4) {
-              $('#reviewsList').prepend(`
-            <li>
-                <div class="row mb-4">
-                  <div class="col-md-5">
-
-                    <div>
-
-                      <span class="fa fa-star fa-sm checked"></span>
-                      <span class="fa fa-star fa-sm checked"></span>
-                      <span class="fa fa-star fa-sm checked"></span>
-                      <span class="fa fa-star fa-sm checked"></span>
-
-                    </div>
-                    <div>
-                      <small><em>Difficulty: ${difficulty} </em></small>
-                    </div>
-                    <div>
-                      <small>Review by: <strong>${username}</strong></small>
-                    </div>
-                    <div>
-                      <small><em>Written on: ${currentDate}</em></small>
-                    </div>
-                        <div>
-                          <btn class='btn btn-warning editBtn btn-xs' id='${result}'>Edit</btn>
-                          <btn class='btn btn-danger deleteBtn btn-xs' id='${result}'>Delete</btn>
-                        </div>
-                  </div>
-
-                  <div class="col-md-7">
-                    <p style="word-wrap: break-word;">${comment}</p>
-                  </div>
-                </div>
-              </li>
-            `).hide().fadeIn('slow');
-            } else {
-              $('#reviewsList').prepend(`
-            <li>
-                <div class="row mb-4">
-                  <div class="col-md-5">
-
-                    <div>
-
-                      <span class="fa fa-star fa-sm checked"></span>
-                      <span class="fa fa-star fa-sm checked"></span>
-                      <span class="fa fa-star fa-sm checked"></span>
-                      <span class="fa fa-star fa-sm checked"></span>
-                      <span class="fa fa-star fa-sm checked"></span>
-
-                    </div>
-                    <div>
-                      <small><em>Difficulty: ${difficulty} </em></small>
-                    </div>
-                    <div>
-                      <small>Review by: <strong>${username}</strong></small>
-                    </div>
-                    <div>
-                      <small><em>Written on: ${currentDate}</em></small>
-                    </div>
-                        <div>
-                          <btn class='btn btn-warning editBtn btn-xs' id='${result}'>Edit</btn>
-                          <btn class='btn btn-danger deleteBtn btn-xs' id='${result}'>Delete</btn>
-                        </div>
-                  </div>
-
-                  <div class="col-md-7">
-                    <p style="word-wrap: break-word;">${comment}</p>
-                  </div>
-                </div>
-              </li>
-            `).hide().fadeIn('slow');
+              editing = false;
+              id = null;
+            },
+            error: function(error) {
+              $('#loader').hide();
+              console.log(error);
             }
-           
-          },
-          error: function(error) {
-            $('#loader').hide();
-            console.log(error);
-          }
-        });
+          });
+        } else {
+          // submit new review
+          // ajax call to server to post comment
+          $.ajax({
+            url: '/courses/<%=courseInfo[0].courseID%>/comment',
+            type: "POST",
+            data: {
+              'comment': comment,
+              'stars': stars,
+              'difficulty': difficulty,
+              'username': username,
+              'date': currentDate,
+              'course_id': courseID
+            },
+            success: function(result) {
+              $('#loader').hide();
+              resetInput();
 
+              // append to reviews list
+                $('#reviewsList').prepend(`
+              <li>
+                  <div class="row mb-4">
+                    <div class="col-md-5">
+
+                      <div>
+
+                        <span class="fa fa-star fa-sm star${result}"></span>
+                        <span class="fa fa-star fa-sm star${result}"></span>
+                        <span class="fa fa-star fa-sm star${result}"></span>
+                        <span class="fa fa-star fa-sm star${result}"></span>
+                        <span class="fa fa-star fa-sm star${result}"></span>
+
+                      </div>
+                      <div>
+                        <small><em class="difficulty${result}">Difficulty: ${difficulty} </em></small>
+                      </div>
+                      <div>
+                        <small>Review by: <strong>${username}</strong></small>
+                      </div>
+                      <div>
+                        <small><em>Written on: ${currentDate}</em></small>
+                      </div>
+                          <div>
+                            <btn class='btn btn-warning editBtn btn-xs' id='${result}'>Edit</btn>
+                            <btn class='btn btn-danger deleteBtn btn-xs' id='${result}'>Delete</btn>
+                          </div>
+                    </div>
+
+                    <div class="col-md-7">
+                      <p style="word-wrap: break-word;" class="comment${result}">${comment}</p>
+                    </div>
+                  </div>
+                </li>
+              `).hide().fadeIn('500');
+   
+              $('.star' + result).each(function(i) {
+                if (i < stars) {
+                  $(this).addClass('checked');
+                }
+              });
+
+              // Add to courseReviews var
+              var newReview = {
+                'comment': comment,
+                'stars': stars,
+                'difficulty': difficulty,
+                'username': username,
+                'date': currentDate,
+                'course_id': courseID,
+                'id': result
+               }
+              courseReviews.push(newReview);
+            },
+            error: function(error) {
+              $('#loader').hide();
+              console.log(error);
+            }
+          });
+        } 
       } else {
         console.log("cant");
       }
@@ -668,7 +597,6 @@
       });
 
       $('#difficultySelect').val('-1');
-
       $('#reviewTextArea').val('');
     }
 
@@ -708,27 +636,60 @@
       }
     }
 
-    $('.deleteBtn').on('click', function() {
-    $('#loader').show();
+    $('#reviewsList').delegate('.deleteBtn', 'click', function() {
+      $('#loader').show();
 
-    var id = $(this).attr('id');
-    var btn = $(this);
+      var id = $(this).attr('id');
+      var btn = $(this);
 
-    $.ajax({
-      url: "/courses/<%=courseInfo[0].courseID%>/comment",
-      type: "DELETE",
-      data: {
-        'id': id
-      },
-      success: function(result) {
-        $('#loader').hide();
-        btn.parent().parent().parent().parent().fadeOut('500');
-      },
-      error: function(error) {
-        $('#loader').hide();
-        console.log(error);
+      $.ajax({
+        url: "/courses/<%=courseInfo[0].courseID%>/comment",
+        type: "DELETE",
+        data: {
+          'id': id
+        },
+        success: function(result) {
+          $('#loader').hide();
+          btn.parent().parent().parent().parent().fadeOut('500');
+        },
+        error: function(error) {
+          $('#loader').hide();
+          console.log(error);
+        }
+      });
+    });
+
+  $('#reviewsList').delegate('.editBtn', 'click', function() {
+    editing = true;
+    id = $(this).attr('id');
+    $('html, body').animate({
+        scrollTop: $("#formSection").offset().top
+    }, 1000);
+
+    var comment;
+    var stars;
+    var difficulty;
+    for (i in courseReviews) {
+      if (courseReviews[i].id == id) {
+        comment = courseReviews[i].comment;
+        stars = courseReviews[i].stars;
+        difficulty = courseReviews[i].difficulty;
+        editingIndex = i;
+        break;
       }
-    })
+    }
+    console.log(comment);
+    $('#reviewTextArea').val(comment);
+    $('.starClick').each(function(i) {
+      $(this).removeClass('realChecked');
+    });
+    $('.starClick').each(function(i) {
+      if (i < stars) {
+        $(this).addClass('realChecked');
+      }
+    });
+
+    $('#difficultySelect').val(difficulty);
   });
   </script>
 
