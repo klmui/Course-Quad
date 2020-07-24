@@ -99,8 +99,8 @@
                     <% if (typeof user != "undefined") { %>
                       <% if (reviews[i].username == user.username) { %>
                         <div>
-                          <btn class='btn btn-warning btn-xs'>Edit</btn>
-                          <btn class='btn btn-danger btn-xs'>Delete</btn>
+                          <btn class='btn btn-warning editBtn btn-xs' id="<%=reviews[i].id%>">Edit</btn>
+                          <btn class='btn btn-danger deleteBtn btn-xs' id="<%=reviews[i].id%>">Delete</btn>
                         </div>
                       <% } %>
                     <% } %>
@@ -299,7 +299,7 @@
         currentDate = year + "-" + month + "-" + day;
         var instructorID = "<%- coursesByInstructor[0].instructorID %>";
 
-        console.log(comment, stars, username, currentDate, instructorID);
+        //console.log(comment, stars, username, currentDate, instructorID);
 
         // ajax call to server to post comment
         $.ajax({
@@ -315,6 +315,7 @@
           success: function(result) {
             $('#loader').hide();
             resetInput();
+            console.log("res", result);
 
             // append to reviews list
             if (stars == 1) {
@@ -335,8 +336,8 @@
                       <small><em>Written on: ${currentDate}</em></small>
                     </div>
                         <div>
-                          <btn class='btn btn-warning btn-xs' id='${result}'>Edit</btn>
-                          <btn class='btn btn-danger btn-xs' id='${result}'>Delete</btn>
+                          <btn class='btn btn-warning editBtn btn-xs' id='${result}'>Edit</btn>
+                          <btn class='btn btn-danger deleteBtn btn-xs' id='${result}'>Delete</btn>
                         </div>
                   </div>
 
@@ -345,7 +346,7 @@
                   </div>
                 </div>
               </li>
-            `).hide().fadeIn('slow');
+            `).hide().fadeIn('500');
             } else if (stars == 2) {
               $('#reviewsList').prepend(`
             <li>
@@ -365,8 +366,8 @@
                       <small><em>Written on: ${currentDate}</em></small>
                     </div>
                         <div>
-                          <btn class='btn btn-warning btn-xs' id='${result}'>Edit</btn>
-                          <btn class='btn btn-danger btn-xs' id='${result}'>Delete</btn>
+                          <btn class='btn btn-warning editBtn btn-xs' id='${result}'>Edit</btn>
+                          <btn class='btn btn-danger deleteBtn btn-xs' id='${result}'>Delete</btn>
                         </div>
                   </div>
 
@@ -396,8 +397,8 @@
                       <small><em>Written on: ${currentDate}</em></small>
                     </div>
                         <div>
-                          <btn class='btn btn-warning btn-xs' id='${result}'>Edit</btn>
-                          <btn class='btn btn-danger btn-xs' id='${result}'>Delete</btn>
+                          <btn class='btn btn-warning editBtn btn-xs' id='${result}'>Edit</btn>
+                          <btn class='btn btn-danger deleteBtn btn-xs' id='${result}'>Delete</btn>
                         </div>
                   </div>
 
@@ -428,8 +429,8 @@
                       <small><em>Written on: ${currentDate}</em></small>
                     </div>
                         <div>
-                          <btn class='btn btn-warning btn-xs' id='${result}'>Edit</btn>
-                          <btn class='btn btn-danger btn-xs' id='${result}'>Delete</btn>
+                          <btn class='btn btn-warning editBtn btn-xs' id='${result}'>Edit</btn>
+                          <btn class='btn btn-danger deleteBtn btn-xs' id='${result}'>Delete</btn>
                         </div>
                   </div>
 
@@ -461,8 +462,8 @@
                       <small><em>Written on: ${currentDate}</em></small>
                     </div>
                         <div>
-                          <btn class='btn btn-warning btn-xs' id='${result}'>Edit</btn>
-                          <btn class='btn btn-danger btn-xs' id='${result}'>Delete</btn>
+                          <btn class='btn btn-warning editBtn btn-xs' id='${result}'>Edit</btn>
+                          <btn class='btn btn-danger deleteBtn btn-xs' id='${result}'>Delete</btn>
                         </div>
                   </div>
 
@@ -523,6 +524,29 @@
       }
     }
 
+
+  $('.deleteBtn').on('click', function() {
+    $('#loader').show();
+
+    var id = $(this).attr('id');
+    var btn = $(this);
+
+    $.ajax({
+      url: "/instructors/<%=coursesByInstructor[0].instructorID%>/comment",
+      type: "DELETE",
+      data: {
+        'id': id
+      },
+      success: function(result) {
+        $('#loader').hide();
+        btn.parent().parent().parent().parent().fadeOut('500');
+      },
+      error: function(error) {
+        $('#loader').hide();
+        console.log(error);
+      }
+    })
+  });
 
 
   $(document).ready(function() {

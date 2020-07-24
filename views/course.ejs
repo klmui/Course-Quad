@@ -140,8 +140,8 @@
                     <% if (typeof user != "undefined") { %>
                       <% if (courseReviews[i].username == user.username) { %>
                         <div>
-                          <btn class='btn btn-warning btn-xs'>Edit</btn>
-                          <btn class='btn btn-danger btn-xs'>Delete</btn>
+                          <btn class='btn btn-warning editBtn btn-xs' id="<%=courseReviews[i].id%>">Edit</btn>
+                          <btn class='btn btn-danger deleteBtn btn-xs' id="<%=courseReviews[i].id%>">Delete</btn>
                         </div>
                         <% } %>
                     <% } %>
@@ -499,8 +499,8 @@
                       <small><em>Written on: ${currentDate}</em></small>
                     </div>
                         <div>
-                          <btn class='btn btn-warning btn-xs' id='${result}'>Edit</btn>
-                          <btn class='btn btn-danger btn-xs' id='${result}'>Delete</btn>
+                          <btn class='btn btn-warning editBtn btn-xs' id='${result}'>Edit</btn>
+                          <btn class='btn btn-danger deleteBtn btn-xs' id='${result}'>Delete</btn>
                         </div>
                   </div>
 
@@ -509,7 +509,7 @@
                   </div>
                 </div>
               </li>
-            `).hide().fadeIn('slow');
+            `).hide().fadeIn('500');
             } else if (stars == 2) {
               $('#reviewsList').prepend(`
             <li>
@@ -532,8 +532,8 @@
                       <small><em>Written on: ${currentDate}</em></small>
                     </div>
                         <div>
-                          <btn class='btn btn-warning btn-xs' id='${result}'>Edit</btn>
-                          <btn class='btn btn-danger btn-xs' id='${result}'>Delete</btn>
+                          <btn class='btn btn-warning editBtn btn-xs' id='${result}'>Edit</btn>
+                          <btn class='btn btn-danger deleteBtn btn-xs' id='${result}'>Delete</btn>
                         </div>
                   </div>
 
@@ -566,8 +566,8 @@
                       <small><em>Written on: ${currentDate}</em></small>
                     </div>
                         <div>
-                          <btn class='btn btn-warning btn-xs' id='${result}'>Edit</btn>
-                          <btn class='btn btn-danger btn-xs' id='${result}'>Delete</btn>
+                          <btn class='btn btn-warning editBtn btn-xs' id='${result}'>Edit</btn>
+                          <btn class='btn btn-danger deleteBtn btn-xs' id='${result}'>Delete</btn>
                         </div>
                   </div>
 
@@ -601,8 +601,8 @@
                       <small><em>Written on: ${currentDate}</em></small>
                     </div>
                         <div>
-                          <btn class='btn btn-warning btn-xs' id='${result}'>Edit</btn>
-                          <btn class='btn btn-danger btn-xs' id='${result}'>Delete</btn>
+                          <btn class='btn btn-warning editBtn btn-xs' id='${result}'>Edit</btn>
+                          <btn class='btn btn-danger deleteBtn btn-xs' id='${result}'>Delete</btn>
                         </div>
                   </div>
 
@@ -637,8 +637,8 @@
                       <small><em>Written on: ${currentDate}</em></small>
                     </div>
                         <div>
-                          <btn class='btn btn-warning btn-xs' id='${result}'>Edit</btn>
-                          <btn class='btn btn-danger btn-xs' id='${result}'>Delete</btn>
+                          <btn class='btn btn-warning editBtn btn-xs' id='${result}'>Edit</btn>
+                          <btn class='btn btn-danger deleteBtn btn-xs' id='${result}'>Delete</btn>
                         </div>
                   </div>
 
@@ -707,6 +707,29 @@
         return true;
       }
     }
+
+    $('.deleteBtn').on('click', function() {
+    $('#loader').show();
+
+    var id = $(this).attr('id');
+    var btn = $(this);
+
+    $.ajax({
+      url: "/courses/<%=courseInfo[0].courseID%>/comment",
+      type: "DELETE",
+      data: {
+        'id': id
+      },
+      success: function(result) {
+        $('#loader').hide();
+        btn.parent().parent().parent().parent().fadeOut('500');
+      },
+      error: function(error) {
+        $('#loader').hide();
+        console.log(error);
+      }
+    })
+  });
   </script>
 
   <%- include('./partials/footer'); %>
