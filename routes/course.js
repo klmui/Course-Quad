@@ -45,34 +45,32 @@ router.get("/:courseID", authController.isLoggedIn, (req, res) => {
       console.log("Error in query");
     } else {
       var query2 = `
-      select avg(r.stars) as avgRating, date(r.date) as date
-       from Course c
-       inner join Offering o
-       on c.courseID = o.course_id
-       inner join Belongs b
-       on o.ID = b.course_offering_id
-       inner join Subject subj
-       on subj.code = b.subject_code
-       inner join Term term
-       on term.code = o.term_code
-       inner join SectionToDistributionMapping m
-       on o.ID = m.course_offering_id
-       inner join Distribution d
-       on m.distribution_id = d.ID
-       inner join Section s
-       on s.distribution_id = m.distribution_id
-       inner join Teach t
-       on s.ID = t.section_id
-       inner join Instructor i
-       on t.instructor_id = i.instructorID
-       left join CourseRating r
-       on c.courseID = r.course_id
-      where  subj.code is NOT NULL and c.courseID='${courseID}'
-      and s.distribution_id > 0
-      and r.year = term.year
-      and r.semester = term.semester
-      group by date(r.date); # -1 if null
-      `
+          select avg(r.stars) as avgRating, date(r.date) as date
+          from Course c
+          inner join Offering o
+          on c.courseID = o.course_id
+          inner join Belongs b
+          on o.ID = b.course_offering_id
+          inner join Subject subj
+          on subj.code = b.subject_code
+          inner join Term term
+          on term.code = o.term_code
+          inner join SectionToDistributionMapping m
+          on o.ID = m.course_offering_id
+          inner join Distribution d
+          on m.distribution_id = d.ID
+          inner join Section s
+          on s.distribution_id = m.distribution_id
+          inner join Teach t
+          on s.ID = t.section_id
+          inner join Instructor i
+          on t.instructor_id = i.instructorID
+          left join CourseRating r
+          on c.courseID = r.course_id
+        where  subj.code is NOT NULL
+        and s.distribution_id > 0
+        group by date(r.date); # -1 if null
+      `;
       connection.query(query2, function(error, rows2, fields) {
         if (error) {
           console.log("error in query");
@@ -84,7 +82,7 @@ router.get("/:courseID", authController.isLoggedIn, (req, res) => {
             if (error) {
               console.log("error in query");
             } else {
-              console.log(rows3);
+              console.log(rows2);
               res.render('course', {'courseInfo': rows, 'user': req.user, 'courseRating': rows2, "courseReviews": rows3});
             }
           });
