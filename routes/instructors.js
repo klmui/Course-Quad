@@ -77,7 +77,7 @@ router.get('/:id', authController.isLoggedIn, function(req, res) {
             left join InstructorRating r
             on i.instructorID = r.instructor_id
             WHERE r.comment is not null and i.instructorID=${req.params.id}
-            order by i.instructorID;
+            order by r.date;
           `;
           connection.query(query3, function(error, rows3, fields) {
             if (error) {

@@ -69,24 +69,50 @@ router.get("/:courseID", authController.isLoggedIn, (req, res) => {
           on c.courseID = r.course_id
         where  subj.code is NOT NULL
         and s.distribution_id > 0
-        group by date(r.date); # -1 if null
+        group by date(r.date) # -1 if null
+        order by date(r.date);
       `;
       connection.query(query2, function(error, rows2, fields) {
         if (error) {
           console.log("error in query");
         } else {
           var query3 = `
-          SELECT comment, stars, difficulty, username, date(date) as date, year FROM CourseRating WHERE course_id='${courseID}';
+          SELECT comment, stars, difficulty, username, date(date) as date, year 
+          FROM CourseRating 
+          WHERE course_id='${courseID}'
+          order by date(date) DESC;
+          ;
           `;
           connection.query(query3, function(error, rows3, fields) {
             if (error) {
               console.log("error in query");
             } else {
+              console.log(rows3);
               res.render('course', {'courseInfo': rows, 'user': req.user, 'courseRating': rows2, "courseReviews": rows3});
             }
           });
         }
       });
+    }
+  });
+});
+
+router.post('/:id/comment', function(req, res) {
+  var query = `
+    INSERT INTO CourseRating(comment, stars, course_id, difficulty, username, date) VALUES ?
+  `;
+  var values = [
+    [req.body.comment, req.body.stars, req.body.course_id, req.body.difficulty, req.body.username, req.body.date]
+  ];
+
+  console.log(values);
+
+  connection.query(query, [values], function(err, result) {
+    if (err) {
+      console.log(err);
+      console.log("error in query");
+    } else {
+      res.send(result.insertedId);
     }
   });
 });
