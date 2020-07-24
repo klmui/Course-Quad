@@ -126,7 +126,7 @@
                     <small>Review by: <strong><%= courseReviews[i].username %></strong></small>
                   </div>
                   <div>
-                    <small><em>Written on: <%= courseReviews[i].date.toString().substring(0, 15) %></em></em></small>
+                    <small><em>Written on: <%= courseReviews[i].date.toString().substring(0, 15) %></em></small>
                   </div>
                   <% if (courseReviews[i].username == user.username) { %>
                     <div>
@@ -187,7 +187,11 @@
   var grades = constructGrades(null, null);
 
   // Display average rating and difficulty
-  $('.difficultyTitle').text(courseInfo[0].avgDifficulty);
+  if (courseInfo[0].avgDifficulty == null) {
+    $('.difficultyTitle').html('<small><em>No data yet</em></small>');
+  } else {
+    $('.difficultyTitle').text(courseInfo[0].avgDifficulty);
+  }
   var avgRating = Math.ceil(parseInt(courseInfo[0].avgRating));
   $('.reviewRating').each(function(i) {
     if (i < avgRating) {
@@ -244,16 +248,23 @@
   var data = [];
   var termAndRating = {};
   for (i in courseRating) {
-    termAndRating['date'] = courseRating[i].date;
-    termAndRating['avgRating'] = courseRating[i].avgRating;
-    data.push(termAndRating);
-    termAndRating = {};
+    if (courseRating[i].date != null && courseRating[i].avgRating != null) {
+      var date = new Date(courseRating[i].date);
+      termAndRating['date'] = date;
+      termAndRating['avgRating'] = courseRating[i].avgRating;
+      data.push(termAndRating);
+      termAndRating = {};
+    }
   }
   chart.data = data;
 
   // Create axes
   var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
   dateAxis.renderer.minGridDistance = 5;
+
+  dateAxis.gridIntervals.setAll([
+    { timeUnit: "month", count: 2 }
+  ]);
 
   var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
