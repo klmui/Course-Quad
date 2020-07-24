@@ -67,7 +67,7 @@ router.get("/:courseID", authController.isLoggedIn, (req, res) => {
           on t.instructor_id = i.instructorID
           left join CourseRating r
           on c.courseID = r.course_id
-        where  subj.code is NOT NULL
+        where  subj.code is NOT NULL and c.courseID='${courseID}'
         and s.distribution_id > 0
         group by date(r.date) # -1 if null
         order by date(r.date);
@@ -120,6 +120,23 @@ router.delete('/:id/comment', function(req, res) {
     DELETE FROM CourseRating WHERE id = ?
   `;
   connection.query(query, req.body.id, function(error, results, fields) {
+    if (error) {
+      console.log("error in query");
+      console.log(error);
+    } else {
+      res.send("success");
+    }
+  });
+});
+
+router.put('/:id/comment', function(req, res) {
+  var query = `
+    UPDATE CourseRating SET stars =?, difficulty = ?, comment = ?
+    WHERE id = ?
+  `;
+  var values = [req.body.stars, req.body.difficulty, req.body.comment, req.body.id];
+
+  connection.query(query, values, (error, results, fields) => {
     if (error) {
       console.log("error in query");
       console.log(error);
