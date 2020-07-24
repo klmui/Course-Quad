@@ -77,7 +77,7 @@ router.get("/:courseID", authController.isLoggedIn, (req, res) => {
           console.log("error in query");
         } else {
           var query3 = `
-          SELECT comment, stars, difficulty, username, date(date) as date, year 
+          SELECT comment, stars, difficulty, username, date(date) as date, year, id 
           FROM CourseRating 
           WHERE course_id='${courseID}'
           order by date(date) DESC;
@@ -110,7 +110,21 @@ router.post('/:id/comment', function(req, res) {
       console.log(err);
       console.log("error in query");
     } else {
-      res.send(result.insertedId);
+      res.send(result.insertId.toString());
+    }
+  });
+});
+
+router.delete('/:id/comment', function(req, res) {
+  var query = `
+    DELETE FROM CourseRating WHERE id = ?
+  `;
+  connection.query(query, req.body.id, function(error, results, fields) {
+    if (error) {
+      console.log("error in query");
+      console.log(error);
+    } else {
+      res.send("success");
     }
   });
 });

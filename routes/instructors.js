@@ -72,7 +72,7 @@ router.get('/:id', authController.isLoggedIn, function(req, res) {
         } else {
           var query3 = `
             select i.instructorID as instructorID, i.name as instructor, r.date as date,
-            r.stars as rating, r.difficulty as difficulty, r.review as review, r.comment, r.username
+            r.stars as rating, r.difficulty as difficulty, r.review as review, r.comment, r.username, r.id
             from Instructor i
             left join InstructorRating r
             on i.instructorID = r.instructor_id
@@ -106,7 +106,21 @@ router.post('/:id/comment', function(req, res) {
       console.log(err);
       console.log("error in query");
     } else {
-      res.send(result.insertedId);
+      res.send(result.insertId.toString());
+    }
+  });
+});
+
+router.delete('/:id/comment', function(req, res) {
+  var query = `
+    DELETE FROM InstructorRating WHERE id = ?
+  `;
+  connection.query(query, req.body.id, function(error, results, fields) {
+    if (error) {
+      console.log("error in query");
+      console.log(error);
+    } else {
+      res.send("success");
     }
   });
 });
