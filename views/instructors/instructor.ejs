@@ -68,43 +68,53 @@
               </div>
               <textarea class="form-control" id="reviewTextArea" rows="3"></textarea>
               <div class="d-flex flex-row-reverse">
-                <btn class="btn btn-primary mt-1 mb-4">Submit</btn>
+                <% if (typeof user != "undefined") { %>
+                  <btn class="btn btn-primary mt-1 mb-4 submitBtn">Submit</btn>
+                <% } else { %>
+                  <btn class="btn btn-primary mt-1 mb-4" title="You must be signed in to submit a review" disabled>Submit</btn>
+                <% } %>
               </div>
             </div>
           </div>
-
-          <% for (var i = 0; i < reviews.length; i++) { %>
-            <div class="row mb-4">
-              <div class="col-md-5">
-                <div>
-                  
-                  <% for (var j = 0; j < reviews[i].rating; j++) { %>
-                    <span class="fa fa-star fa-sm checked"></span>
-                  <% } %>
-
-                </div>
-                <div>
-                  <small>Review by: <strong><%=reviews[i].username%></strong></small>
-                </div>
-                <div>
-                  <small><em>Written on: <%= reviews[i].date.toString().substring(0, 15) %></em></small>
-                </div>
-
-                <% if (reviews[i].username == user.username) { %>
-                  <div>
-                    <btn class='btn btn-warning btn-xs'>Edit</btn>
-                    <btn class='btn btn-danger btn-xs'>Delete</btn>
+          
+          <ul id="reviewsList" style='list-style-type: none;'>
+            <% for (var i = 0; i < reviews.length; i++) { %>
+              <li>
+                <div class="row mb-4">
+                  <div class="col-md-5">
+                    <div>
+                      
+                      <% for (var j = 0; j < reviews[i].rating; j++) { %>
+                        <span class="fa fa-star fa-sm checked"></span>
+                      <% } %>
+    
+                    </div>
+                    <div>
+                      <small>Review by: <strong><%=reviews[i].username%></strong></small>
+                    </div>
+                    <div>
+                      <small><em>Written on: <%= reviews[i].date.toString().substring(0, 15) %></em></small>
+                    </div>
+                    
+                    <% if (typeof user != "undefined") { %>
+                      <% if (reviews[i].username == user.username) { %>
+                        <div>
+                          <btn class='btn btn-warning btn-xs'>Edit</btn>
+                          <btn class='btn btn-danger btn-xs'>Delete</btn>
+                        </div>
+                      <% } %>
+                    <% } %>
+    
+    
                   </div>
-                <% } %>
-
-
-              </div>
-
-              <div class="col-md-7">
-                <p style="word-wrap: break-word;"><%=reviews[i].comment%></p>
-              </div>
-            </div>
-          <% } %>
+    
+                  <div class="col-md-7">
+                    <p style="word-wrap: break-word;"><%=reviews[i].comment%></p>
+                  </div>
+                </div>
+              </li>
+            <% } %>
+          </ul>
 
         </div>
       </div>

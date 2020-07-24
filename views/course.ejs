@@ -1,6 +1,6 @@
 <%- include('./partials/header'); %>
 
-<div id="loader" class="center"></div> 
+<div id="loader" class="center"></div>
 
 <div class='card-title'>
   <div class='container-fluid'>
@@ -9,7 +9,7 @@
         <div class="card-header ml-3" style="width: 100%;">
           <h3 class="card-title text-center courseTitle" id="">Course Title</h3>
         </div>
-        
+
         <div class='row mt-4 mb-3'>
           <div class="d-flex d-inline-block" style="margin: 0 auto;">
             <span class="fa fa-star fa-2x reviewRating"></span>
@@ -18,8 +18,9 @@
             <span class="fa fa-star fa-2x reviewRating"></span>
             <span class="fa fa-star fa-2x reviewRating"></span>
             <em class="align-self-center"><span class="totalReviewsTitle"></span></em>
-            
-            <h5 class="align-self-center mb-0" style="margin-left: 50px;">Difficulty: <span class="difficultyTitle"></span></h5>
+
+            <h5 class="align-self-center mb-0" style="margin-left: 50px;">Difficulty: <span
+                class="difficultyTitle"></span></h5>
           </div>
         </div>
 
@@ -40,8 +41,8 @@
                 <option selected>All Instructors</option>
               </select>
             </div>
-          </div>          
-          
+          </div>
+
           <div class='col-lg-6'>
             <div class="dropdown text-center">
               <select class="custom-select" id="termSelect" style="background-color: #adadad; width: 70%;">
@@ -80,343 +81,631 @@
           </div>
         </div>
 
+        <!-- form section -->
         <div class="thumbnail text-muted pl-2 pr-2" style="width:75%; margin:auto; background-color: #FFF;">
           <h5 class="border-bottom pt-2">Latest reviews for this course:</h5>
           <div class="caption-full">
             <div class="form-group mt-3">
               <label for="reviewTextArea">Write your review, tips, or any comments</label>
-              <div style="margin: 0 auto;">
+              <div id="inputContainer" style="margin: 0 auto;">
                 <span class="fa fa-star starClick1 starClick fa-lg" onclick="starClick(1)"></span>
                 <span class="fa fa-star starClick2 starClick fa-lg" onclick="starClick(2)"></span>
                 <span class="fa fa-star starClick3 starClick fa-lg" onclick="starClick(3)"></span>
                 <span class="fa fa-star starClick4 starClick fa-lg" onclick="starClick(4)"></span>
                 <span class="fa fa-star starClick5 starClick fa-lg" onclick="starClick(5)"></span>
 
-                <select class="custom-select mb-2" id="difficultySelect" style="background-color: #adadad; width: 40%; float:right;">
-                  <option selected>Difficulty</option>
+                <select class="custom-select mb-2" id="difficultySelect"
+                  style="background-color: #adadad; width: 40%; float:right;">
+                  <option selected val='-1'>Difficulty</option>
                   <option val='1'>1</option>
                   <option val='2'>2</option>
                   <option val='3'>3</option>
                   <option val='4'>4</option>
                   <option val='5'>5</option>
                 </select>
-              <textarea class="form-control" id="reviewTextArea" rows="3"></textarea>
-              <div class="d-flex flex-row-reverse">
-                <btn class="btn btn-primary mt-1 mb-4">Submit</btn>
-              </div>
-            </div>
-          </div>
-
-          <!-- start of reviews section -->
-          <% for (var i = 0; i < courseReviews.length; i++) { %>
-            <div class="row mb-4">
-                <div class="col-md-5">
-
-                  <div>
-                    
-                    <% for (var j = 0; j < courseReviews[i].stars; j++) { %>
-                      <span class="fa fa-star fa-sm checked"></span>
-                    <% } %>
-
-                  </div>
-                  <div>
-                    <small><em>Difficulty: <%= courseReviews[i].difficulty %></em></small>
-                  </div>
-                  <div>
-                    <small>Review by: <strong><%= courseReviews[i].username %></strong></small>
-                  </div>
-                  <div>
-                    <small><em>Written on: <%= courseReviews[i].date.toString().substring(0, 15) %></em></small>
-                  </div>
-                  <% if (courseReviews[i].username == user.username) { %>
-                    <div>
-                      <btn class='btn btn-warning btn-xs'>Edit</btn>
-                      <btn class='btn btn-danger btn-xs'>Delete</btn>
-                    </div>
+                <textarea class="form-control" id="reviewTextArea" rows="3"></textarea>
+                <div class="d-flex flex-row-reverse">
+                  <% if (typeof user != "undefined") { %>
+                    <btn class="btn btn-primary mt-1 mb-4 submitBtn">Submit</btn>
+                  <% } else { %>
+                    <btn class="btn btn-primary mt-1 mb-4" title="You must be signed in to submit a review" disabled>Submit</btn>
                   <% } %>
                 </div>
-
-                <div class="col-md-7">
-                  <p style="word-wrap: break-word;"><%= courseReviews[i].comment %></p>
-                </div>
+              </div>
             </div>
-          <% } %>
+
+            <!-- start of reviews section -->
+            <ul id="reviewsList" style='list-style-type: none;'>
+              <% for (var i = 0; i < courseReviews.length; i++) { %>
+              <li>
+                <div class="row mb-4">
+                  <div class="col-md-5">
+
+                    <div>
+
+                      <% for (var j = 0; j < courseReviews[i].stars; j++) { %>
+                      <span class="fa fa-star fa-sm checked"></span>
+                      <% } %>
+
+                    </div>
+                    <div>
+                      <small><em>Difficulty: <%= courseReviews[i].difficulty %></em></small>
+                    </div>
+                    <div>
+                      <small>Review by: <strong><%= courseReviews[i].username %></strong></small>
+                    </div>
+                    <div>
+                      <small><em>Written on: <%= courseReviews[i].date.toString().substring(0, 15) %></em></small>
+                    </div>
+                    <% if (typeof user != "undefined") { %>
+                      <% if (courseReviews[i].username == user.username) { %>
+                        <div>
+                          <btn class='btn btn-warning btn-xs'>Edit</btn>
+                          <btn class='btn btn-danger btn-xs'>Delete</btn>
+                        </div>
+                        <% } %>
+                    <% } %>
+                  </div>
+
+                  <div class="col-md-7">
+                    <p style="word-wrap: break-word;"><%= courseReviews[i].comment %></p>
+                  </div>
+                </div>
+              </li>
+              <% } %>
+            </ul>
+
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<script>
-  $('#loader').hide();
-  $('.nav-item').removeClass('active border rounded');
-  $('#coursesTab').addClass('active border rounded');
+  <script>
+    $('#loader').hide();
+    $('.nav-item').removeClass('active border rounded');
+    $('#coursesTab').addClass('active border rounded');
 
-  var courseInfo = <%- JSON.stringify(courseInfo) %>;
-  console.log(courseInfo);
+    var courseInfo = <%- JSON.stringify(courseInfo) %>;
 
-  $('.courseTitle').text(courseInfo[0].course_name + ' - ' + courseInfo[0].subject + courseInfo[0].number);
-  $('.courseTitle').attr('id', courseInfo[0].courseID);
+    $('.courseTitle').text(courseInfo[0].course_name + ' - ' + courseInfo[0].subject + courseInfo[0].number);
+    $('.courseTitle').attr('id', courseInfo[0].courseID);
 
-  // get unique instructors
-  var instructorsAndId = {};
-  for (i in courseInfo) {
-    instructorsAndId[courseInfo[i].instructor] = courseInfo[i].instructor_id;
-  }
+    // get unique instructors
+    var instructorsAndId = {};
+    for (i in courseInfo) {
+      instructorsAndId[courseInfo[i].instructor] = courseInfo[i].instructor_id;
+    }
 
-  // add instructors to dropdown
-  for (const [name, id] of Object.entries(instructorsAndId)) {
-    $('#instructorSelect').append(`<option value="${id}"> 
+    // add instructors to dropdown
+    for (const [name, id] of Object.entries(instructorsAndId)) {
+      $('#instructorSelect').append(`<option value="${id}"> 
                                         ${name} 
-                                  </option>`); 
-  }
+                                  </option>`);
+    }
 
-  // get unique terms
-  var terms = {};
-  for (i in courseInfo) {
-    terms[courseInfo[i].semester + " " + courseInfo[i].year] = "";
-  }
+    // get unique terms
+    var terms = {};
+    for (i in courseInfo) {
+      terms[courseInfo[i].semester + " " + courseInfo[i].year] = "";
+    }
 
-  // add terms to dropdown
-  for (const [term, val] of Object.entries(terms)) {
-    $('#termSelect').append(`<option value="${term}"> 
+    // add terms to dropdown
+    for (const [term, val] of Object.entries(terms)) {
+      $('#termSelect').append(`<option value="${term}"> 
                                         ${term} 
-                            </option>`); 
-  }
+                            </option>`);
+    }
 
-  var grades = constructGrades(null, null);
+    var grades = constructGrades(null, null);
 
-  // Display average rating and difficulty
-  if (courseInfo[0].avgDifficulty == null) {
-    $('.difficultyTitle').html('<small><em>No data yet</em></small>');
-  } else {
-    $('.difficultyTitle').text(courseInfo[0].avgDifficulty);
-  }
-  var avgRating = Math.ceil(parseInt(courseInfo[0].avgRating));
-  $('.reviewRating').each(function(i) {
-    if (i < avgRating) {
+    // Display average rating and difficulty
+    if (courseInfo[0].avgDifficulty == null) {
+      $('.difficultyTitle').html('<small><em>No data yet</em></small>');
+    } else {
+      $('.difficultyTitle').text(courseInfo[0].avgDifficulty);
+    }
+    var avgRating = Math.ceil(parseInt(courseInfo[0].avgRating));
+    $('.reviewRating').each(function (i) {
+      if (i < avgRating) {
+        $(this).addClass('checked');
+      }
+    });
+
+    // Find total reviews
+    var numReviews = <%- courseReviews.length %>;
+    if (numReviews == 0) {
+      $('.totalReviewsTitle').text('No reviews yet');
+    } else {
+      $('.totalReviewsTitle').text("Total reviews: " + numReviews);
+    }
+
+    /* CHARTS SECTION */
+    // PIE chart
+    am4core.ready(function () {
+
+      // Themes begin
+      am4core.useTheme(am4themes_animated);
+      // Themes end
+
+      // Create chart instance
+      var chart1 = am4core.create("pieChart", am4charts.PieChart);
+
+      // Add data
+      chart1.data = grades;
+
+      // Add and configure Series
+      var pieSeries = chart1.series.push(new am4charts.PieSeries());
+      pieSeries.dataFields.value = "num";
+      pieSeries.dataFields.category = "grade";
+      pieSeries.slices.template.stroke = am4core.color("#fff");
+      pieSeries.slices.template.strokeOpacity = 1;
+
+      // This creates initial animation
+      pieSeries.hiddenState.properties.opacity = 1;
+      pieSeries.hiddenState.properties.endAngle = -90;
+      pieSeries.hiddenState.properties.startAngle = -90;
+
+      // Display percentage
+      chart1.hiddenState.properties.radius = am4core.percent(1);
+
+      // Add legend
+      chart1.legend = new am4charts.Legend();
+
+
+      // BAR CHART HERE
+      var chart2 = am4core.create("barChart", am4charts.XYChart);
+
+      var courseRating = <%- JSON.stringify(courseRating) %>;
+      var data = [];
+      var termAndRating = {};
+      for (i in courseRating) {
+        if (courseRating[i].date != null && courseRating[i].avgRating != null) {
+          var date = new Date(courseRating[i].date);
+          termAndRating['date'] = date;
+          termAndRating['avgRating'] = courseRating[i].avgRating;
+          data.push(termAndRating);
+          termAndRating = {};
+        }
+      }
+      console.log(data);
+      chart2.data = data;
+
+      // Create axes
+      var dateAxis = chart2.xAxes.push(new am4charts.DateAxis());
+      dateAxis.renderer.minGridDistance = 5;
+
+      dateAxis.gridIntervals.setAll([{
+        timeUnit: "month",
+        count: 2
+      }]);
+
+      var valueAxis = chart2.yAxes.push(new am4charts.ValueAxis());
+
+      // Create series
+      var series = chart2.series.push(new am4charts.LineSeries());
+      series.dataFields.valueY = "avgRating";
+      series.dataFields.dateX = "date";
+      series.tooltipText = "{value}"
+
+      series.tooltip.pointerOrientation = "vertical";
+
+      chart2.cursor = new am4charts.XYCursor();
+      chart2.cursor.snapToSeries = series;
+      chart2.cursor.xAxis = dateAxis;
+
+      //chart.scrollbarY = new am4core.Scrollbar();
+      chart2.scrollbarX = new am4core.Scrollbar();
+
+
+    }); // end am4core.ready()
+
+
+
+
+    function constructGrades(instructorId, term) {
+      var numA = 0;
+      var numAB = 0;
+      var numB = 0;
+      var numBC = 0;
+      var numC = 0;
+      var numD = 0;
+      var numF = 0;
+      if (instructorId == null && term == null) {
+        for (i in courseInfo) {
+          numA += courseInfo[i].numA;
+          numAB += courseInfo[i].numAB;
+          numB += courseInfo[i].numB;
+          numBC += courseInfo[i].numBC;
+          numC += courseInfo[i].numC;
+          numD += courseInfo[i].numD;
+          numF += courseInfo[i].numF;
+        }
+      }
+
+      return [{
+          "grade": "A",
+          "num": numA
+        },
+        {
+          "grade": "AB",
+          "num": numAB
+        },
+        {
+          "grade": "B",
+          "num": numB
+        },
+        {
+          "grade": "BC",
+          "num": numBC
+        },
+        {
+          "grade": "C",
+          "num": numC
+        },
+        {
+          "grade": "D",
+          "num": numD
+        },
+        {
+          "grade": "F",
+          "num": numF
+        },
+      ]
+    }
+
+    function starClick(numStars) {
+      $('.starClick').each(function () {
+        $(this).removeClass('realChecked');
+      });
+
+      $('.starClick').each(function (i) {
+        if (i < numStars) {
+          $(this).addClass('realChecked');
+        }
+      });
+    }
+
+    $('.starClick1').hover(function () {
+      $('.starClick').each(function () {
+        $(this).removeClass('checked');
+      });
       $(this).addClass('checked');
+    }, function () {
+      $('.starClick').each(function () {
+        $(this).removeClass('checked');
+      })
+    });
+
+    $('.starClick2').hover(function () {
+      $('.starClick').each(function () {
+        $(this).removeClass('checked');
+      });
+      $('.starClick1').addClass('checked');
+      $(this).addClass('checked');
+    }, function () {
+      $('.starClick').each(function () {
+        $(this).removeClass('checked');
+      })
+    });
+
+    $('.starClick3').hover(function () {
+      $('.starClick').each(function () {
+        $(this).removeClass('checked');
+      });
+      $('.starClick1').addClass('checked');
+      $('.starClick2').addClass('checked');
+      $(this).addClass('checked');
+    }, function () {
+      $('.starClick').each(function () {
+        $(this).removeClass('checked');
+      })
+    });
+
+    $('.starClick4').hover(function () {
+      $('.starClick').each(function () {
+        $(this).removeClass('checked');
+      });
+      $('.starClick1').addClass('checked');
+      $('.starClick2').addClass('checked');
+      $('.starClick3').addClass('checked');
+      $(this).addClass('checked');
+    }, function () {
+      $('.starClick').each(function () {
+        $(this).removeClass('checked');
+      })
+    });
+
+    $('.starClick5').hover(function () {
+      $('.starClick').each(function () {
+        $(this).removeClass('checked');
+      });
+      $('.starClick1').addClass('checked');
+      $('.starClick2').addClass('checked');
+      $('.starClick3').addClass('checked');
+      $('.starClick4').addClass('checked');
+      $(this).addClass('checked');
+    }, function () {
+      $('.starClick').each(function () {
+        $(this).removeClass('checked');
+      })
+    });
+
+
+    // handle submit for a comment
+    $('.submitBtn').on('click', function () {
+      if (validateInput()) {
+        $('#loader').show();
+
+        // scrape data from page
+        var comment = $('#reviewTextArea').val();
+        var stars = 0;
+        $('.starClick').each(function() {
+          if ($(this).hasClass('realChecked')) {
+            stars++;
+          }
+        });
+        var difficulty = $('#difficultySelect').val();
+
+        <% if (typeof user != "undefined") { %>
+          var username = "<%- user.username %>";
+        <% } %>
+        
+        var currentDate = new Date();
+        var day = currentDate.getDate()
+        var month = currentDate.getMonth() + 1
+        var year = currentDate.getFullYear()
+        currentDate = year + "-" + month + "-" + day;
+        var courseID = "<%- courseInfo[0].courseID %>";
+
+        console.log(comment, stars, difficulty, username, currentDate, courseID);
+
+        // ajax call to server to post comment
+        $.ajax({
+          url: '/courses/<%=courseInfo[0].courseID%>/comment',
+          type: "POST",
+          data: {
+            'comment': comment,
+            'stars': stars,
+            'difficulty': difficulty,
+            'username': username,
+            'date': currentDate,
+            'course_id': courseID
+          },
+          success: function(result) {
+            $('#loader').hide();
+            resetInput();
+
+            // append to reviews list
+            if (stars == 1) {
+              $('#reviewsList').prepend(`
+            <li>
+                <div class="row mb-4">
+                  <div class="col-md-5">
+
+                    <div>
+
+                      <span class="fa fa-star fa-sm checked"></span>
+
+                    </div>
+                    <div>
+                      <small><em>Difficulty: ${difficulty} </em></small>
+                    </div>
+                    <div>
+                      <small>Review by: <strong>${username}</strong></small>
+                    </div>
+                    <div>
+                      <small><em>Written on: ${currentDate}</em></small>
+                    </div>
+                        <div>
+                          <btn class='btn btn-warning btn-xs' id='${result}'>Edit</btn>
+                          <btn class='btn btn-danger btn-xs' id='${result}'>Delete</btn>
+                        </div>
+                  </div>
+
+                  <div class="col-md-7">
+                    <p style="word-wrap: break-word;">${comment}</p>
+                  </div>
+                </div>
+              </li>
+            `).hide().fadeIn('slow');
+            } else if (stars == 2) {
+              $('#reviewsList').prepend(`
+            <li>
+                <div class="row mb-4">
+                  <div class="col-md-5">
+
+                    <div>
+
+                      <span class="fa fa-star fa-sm checked"></span>
+                      <span class="fa fa-star fa-sm checked"></span>
+
+                    </div>
+                    <div>
+                      <small><em>Difficulty: ${difficulty} </em></small>
+                    </div>
+                    <div>
+                      <small>Review by: <strong>${username}</strong></small>
+                    </div>
+                    <div>
+                      <small><em>Written on: ${currentDate}</em></small>
+                    </div>
+                        <div>
+                          <btn class='btn btn-warning btn-xs' id='${result}'>Edit</btn>
+                          <btn class='btn btn-danger btn-xs' id='${result}'>Delete</btn>
+                        </div>
+                  </div>
+
+                  <div class="col-md-7">
+                    <p style="word-wrap: break-word;">${comment}</p>
+                  </div>
+                </div>
+              </li>
+            `).hide().fadeIn('slow');
+            } else if (stars == 3) {
+              $('#reviewsList').prepend(`
+            <li>
+                <div class="row mb-4">
+                  <div class="col-md-5">
+
+                    <div>
+
+                      <span class="fa fa-star fa-sm checked"></span>
+                      <span class="fa fa-star fa-sm checked"></span>
+                      <span class="fa fa-star fa-sm checked"></span>
+
+                    </div>
+                    <div>
+                      <small><em>Difficulty: ${difficulty} </em></small>
+                    </div>
+                    <div>
+                      <small>Review by: <strong>${username}</strong></small>
+                    </div>
+                    <div>
+                      <small><em>Written on: ${currentDate}</em></small>
+                    </div>
+                        <div>
+                          <btn class='btn btn-warning btn-xs' id='${result}'>Edit</btn>
+                          <btn class='btn btn-danger btn-xs' id='${result}'>Delete</btn>
+                        </div>
+                  </div>
+
+                  <div class="col-md-7">
+                    <p style="word-wrap: break-word;">${comment}</p>
+                  </div>
+                </div>
+              </li>
+            `).hide().fadeIn('slow');
+            } else if (stars == 4) {
+              $('#reviewsList').prepend(`
+            <li>
+                <div class="row mb-4">
+                  <div class="col-md-5">
+
+                    <div>
+
+                      <span class="fa fa-star fa-sm checked"></span>
+                      <span class="fa fa-star fa-sm checked"></span>
+                      <span class="fa fa-star fa-sm checked"></span>
+                      <span class="fa fa-star fa-sm checked"></span>
+
+                    </div>
+                    <div>
+                      <small><em>Difficulty: ${difficulty} </em></small>
+                    </div>
+                    <div>
+                      <small>Review by: <strong>${username}</strong></small>
+                    </div>
+                    <div>
+                      <small><em>Written on: ${currentDate}</em></small>
+                    </div>
+                        <div>
+                          <btn class='btn btn-warning btn-xs' id='${result}'>Edit</btn>
+                          <btn class='btn btn-danger btn-xs' id='${result}'>Delete</btn>
+                        </div>
+                  </div>
+
+                  <div class="col-md-7">
+                    <p style="word-wrap: break-word;">${comment}</p>
+                  </div>
+                </div>
+              </li>
+            `).hide().fadeIn('slow');
+            } else {
+              $('#reviewsList').prepend(`
+            <li>
+                <div class="row mb-4">
+                  <div class="col-md-5">
+
+                    <div>
+
+                      <span class="fa fa-star fa-sm checked"></span>
+                      <span class="fa fa-star fa-sm checked"></span>
+                      <span class="fa fa-star fa-sm checked"></span>
+                      <span class="fa fa-star fa-sm checked"></span>
+                      <span class="fa fa-star fa-sm checked"></span>
+
+                    </div>
+                    <div>
+                      <small><em>Difficulty: ${difficulty} </em></small>
+                    </div>
+                    <div>
+                      <small>Review by: <strong>${username}</strong></small>
+                    </div>
+                    <div>
+                      <small><em>Written on: ${currentDate}</em></small>
+                    </div>
+                        <div>
+                          <btn class='btn btn-warning btn-xs' id='${result}'>Edit</btn>
+                          <btn class='btn btn-danger btn-xs' id='${result}'>Delete</btn>
+                        </div>
+                  </div>
+
+                  <div class="col-md-7">
+                    <p style="word-wrap: break-word;">${comment}</p>
+                  </div>
+                </div>
+              </li>
+            `).hide().fadeIn('slow');
+            }
+           
+          },
+          error: function(error) {
+            $('#loader').hide();
+            console.log(error);
+          }
+        });
+
+      } else {
+        console.log("cant");
+      }
+    });
+
+    function resetInput() {
+      $('.starClick').each(function() {
+        $(this).removeClass('realChecked');
+      });
+
+      $('#difficultySelect').val('-1');
+
+      $('#reviewTextArea').val('');
     }
-  });
 
-  // Find total reviews
-  var numReviews = 0;
-  if (numReviews == 0) {
-    $('.totalReviewsTitle').text('No reviews yet');
-  } else {
-    $('.totalReviewsTitle').text(numReviews);
-  }
+    function validateInput() {
+      var checksPassed = 0;
+      if ($('#reviewTextArea').val() == '') {
+        $('#inputContainer').addClass('fillOut');
+        setTimeout(function () {
+          $('#inputContainer').removeClass('fillOut');
+        }, 3000);
+      } else {
+        checksPassed++;
+      }
 
-  /* CHARTS SECTION */
-  // PIE chart
-  am4core.ready(function () {
+      if ($('#difficultySelect').attr('val') == '-1') {
+        $('#inputContainer').addClass('fillOut');
+        setTimeout(function () {
+          $('#inputContainer').removeClass('fillOut');
+        }, 3000);
+      } else {
+        checksPassed++;
+      }
 
-  // Themes begin
-  am4core.useTheme(am4themes_animated);
-  // Themes end
+      if (!($('.starClick1').hasClass('realChecked'))) {
+        $('#inputContainer').addClass('fillOut');
+        setTimeout(function () {
+          $('#inputContainer').removeClass('fillOut');
+        }, 3000);
+      } else {
+        checksPassed++;
+      }
 
-  // Create chart instance
-  var chart = am4core.create("pieChart", am4charts.PieChart);
-
-  // Add data
-  chart.data = grades;
-
-  // Add and configure Series
-  var pieSeries = chart.series.push(new am4charts.PieSeries());
-  pieSeries.dataFields.value = "num";
-  pieSeries.dataFields.category = "grade";
-  pieSeries.slices.template.stroke = am4core.color("#fff");
-  pieSeries.slices.template.strokeOpacity = 1;
-
-  // This creates initial animation
-  pieSeries.hiddenState.properties.opacity = 1;
-  pieSeries.hiddenState.properties.endAngle = -90;
-  pieSeries.hiddenState.properties.startAngle = -90;
-
-  // Display percentage
-  chart.hiddenState.properties.radius = am4core.percent(1);
-
-  // Add legend
-  chart.legend = new am4charts.Legend();
-
-
-
-  // BAR CHART HERE
-  var chart = am4core.create("barChart", am4charts.XYChart);
-
-  var courseRating = <%- JSON.stringify(courseRating) %>;
-  var data = [];
-  var termAndRating = {};
-  for (i in courseRating) {
-    if (courseRating[i].date != null && courseRating[i].avgRating != null) {
-      var date = new Date(courseRating[i].date);
-      termAndRating['date'] = date;
-      termAndRating['avgRating'] = courseRating[i].avgRating;
-      data.push(termAndRating);
-      termAndRating = {};
-    }
-  }
-  chart.data = data;
-
-  // Create axes
-  var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-  dateAxis.renderer.minGridDistance = 5;
-
-  dateAxis.gridIntervals.setAll([
-    { timeUnit: "month", count: 2 }
-  ]);
-
-  var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-
-  // Create series
-  var series = chart.series.push(new am4charts.LineSeries());
-  series.dataFields.valueY = "avgRating";
-  series.dataFields.dateX = "date";
-  series.tooltipText = "{value}"
-
-  series.tooltip.pointerOrientation = "vertical";
-
-  chart.cursor = new am4charts.XYCursor();
-  chart.cursor.snapToSeries = series;
-  chart.cursor.xAxis = dateAxis;
-
-  //chart.scrollbarY = new am4core.Scrollbar();
-  chart.scrollbarX = new am4core.Scrollbar();
-
-
-  }); // end am4core.ready()
-
-
-
-
-  function constructGrades(instructorId, term) {
-    var numA = 0;
-    var numAB = 0;
-    var numB = 0;
-    var numBC = 0;
-    var numC = 0;
-    var numD = 0;
-    var numF = 0;
-    if (instructorId == null && term == null) {
-      for (i in courseInfo) {
-        numA += courseInfo[i].numA;
-        numAB += courseInfo[i].numAB;
-        numB += courseInfo[i].numB;
-        numBC += courseInfo[i].numBC;
-        numC += courseInfo[i].numC;
-        numD += courseInfo[i].numD;
-        numF += courseInfo[i].numF;
+      if (checksPassed != 3) {
+        return false;
+      } else {
+        return true;
       }
     }
+  </script>
 
-    return [
-      {
-      "grade": "A",
-      "num": numA
-      },
-      {
-        "grade": "AB",
-        "num": numAB
-      },
-      {
-        "grade": "B",
-        "num": numB
-      },
-      {
-        "grade": "BC",
-        "num": numBC
-      },
-      {
-        "grade": "C",
-        "num": numC
-      },
-      {
-        "grade": "D",
-        "num": numD
-      },
-      {
-        "grade": "F",
-        "num": numF
-      },
-    ]
-  }
-
-  function starClick(numStars) {
-    $('.starClick').each(function() {
-      $(this).removeClass('realChecked');
-    });
-
-    $('.starClick').each(function(i) {
-      if (i < numStars) {
-        $(this).addClass('realChecked');
-      }
-    });
-  }
-
-  $('.starClick1').hover(function() {
-    $('.starClick').each(function() {
-      $(this).removeClass('checked');
-    });
-    $(this).addClass('checked');
-  }, function() {
-    $('.starClick').each(function() {
-      $(this).removeClass('checked');
-    })
-  });
-
-  $('.starClick2').hover(function() {
-    $('.starClick').each(function() {
-      $(this).removeClass('checked');
-    });
-    $('.starClick1').addClass('checked');
-    $(this).addClass('checked');
-  }, function() {
-    $('.starClick').each(function() {
-      $(this).removeClass('checked');
-    })
-  });
-
-  $('.starClick3').hover(function() {
-    $('.starClick').each(function() {
-      $(this).removeClass('checked');
-    });
-    $('.starClick1').addClass('checked');
-    $('.starClick2').addClass('checked');
-    $(this).addClass('checked');
-  }, function() {
-    $('.starClick').each(function() {
-      $(this).removeClass('checked');
-    })
-  });
-
-  $('.starClick4').hover(function() {
-    $('.starClick').each(function() {
-      $(this).removeClass('checked');
-    });
-    $('.starClick1').addClass('checked');
-    $('.starClick2').addClass('checked');
-    $('.starClick3').addClass('checked');
-    $(this).addClass('checked');
-  }, function() {
-    $('.starClick').each(function() {
-      $(this).removeClass('checked');
-    })
-  });
-
-  $('.starClick5').hover(function() {
-    $('.starClick').each(function() {
-      $(this).removeClass('checked');
-    });
-    $('.starClick1').addClass('checked');
-    $('.starClick2').addClass('checked');
-    $('.starClick3').addClass('checked');
-    $('.starClick4').addClass('checked');
-    $(this).addClass('checked');
-  }, function() {
-    $('.starClick').each(function() {
-      $(this).removeClass('checked');
-    })
-  });
-</script>
-
-<%- include('./partials/footer'); %>
+  <%- include('./partials/footer'); %>
