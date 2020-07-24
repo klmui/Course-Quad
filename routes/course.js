@@ -105,8 +105,6 @@ router.post('/:id/comment', function(req, res) {
     [req.body.comment, req.body.stars, req.body.course_id, req.body.difficulty, req.body.username, req.body.date]
   ];
 
-  console.log(values);
-
   connection.query(query, [values], function(err, result) {
     if (err) {
       console.log(err);
