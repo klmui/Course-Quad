@@ -12,12 +12,12 @@
 
         <div class='row mt-4 mb-3'>
           <div style="margin: 0 auto;">
-            <span class="fa fa-star fa-2x checked"></span>
-            <span class="fa fa-star fa-2x checked"></span>
-            <span class="fa fa-star fa-2x checked"></span>
-            <span class="fa fa-star fa-2x"></span>
-            <span class="fa fa-star fa-2x"></span>
-            <em>(Total Reviews: 5000+)</em>
+            <span class="fa fa-star fa-2x reviewRating"></span>
+            <span class="fa fa-star fa-2x reviewRating"></span>
+            <span class="fa fa-star fa-2x reviewRating"></span>
+            <span class="fa fa-star fa-2x reviewRating"></span>
+            <span class="fa fa-star fa-2x reviewRating"></span>
+            <em>(Total Reviews: <%=reviews.length%>)</em>
           </div>
         </div>
 
@@ -72,35 +72,40 @@
               </div>
             </div>
           </div>
-          <div class="row mb-4">
-            <div class="col-md-3">
-              <div>
-                <span class="fa fa-star fa-sm checked"></span>
-                <span class="fa fa-star fa-sm checked"></span>
-                <span class="fa fa-star fa-sm checked"></span>
-                <span class="fa fa-star fa-sm checked"></span>
-                <span class="fa fa-star fa-sm checked"></span>
-              </div>
-              <div>
-                <small>Review by: </strong><strong>Kenny</strong></small>
-              </div>
-              <div>
-                <small><em>Written on: </em></small>
-              </div>
-              <div>
-                <btn class='btn btn-warning btn-xs'>Edit</btn>
-                <btn class='btn btn-danger btn-xs'>Delete</btn>
-              </div>
-            </div>
 
-            <div class="col-md-9">
-              <p style="word-wrap: break-word;">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+          <% for (var i = 0; i < reviews.length; i++) { %>
+            <div class="row mb-4">
+              <div class="col-md-5">
+                <div>
+                  
+                  <% for (var j = 0; j < reviews[i].rating; j++) { %>
+                    <span class="fa fa-star fa-sm checked"></span>
+                  <% } %>
+
+                </div>
+                <div>
+                  <small>Review by: <strong><%=reviews[i].username%></strong></small>
+                </div>
+                <div>
+                  <small><em>Written on: <%= reviews[i].date.toString().substring(0, 15) %></em></small>
+                </div>
+
+                <% if (reviews[i].username == user.username) { %>
+                  <div>
+                    <btn class='btn btn-warning btn-xs'>Edit</btn>
+                    <btn class='btn btn-danger btn-xs'>Delete</btn>
+                  </div>
+                <% } %>
+
+
+              </div>
+
+              <div class="col-md-7">
+                <p style="word-wrap: break-word;"><%=reviews[i].comment%></p>
+              </div>
             </div>
-          </div>
+          <% } %>
+
         </div>
       </div>
     </div>
@@ -110,6 +115,21 @@
 <script>
   $('.nav-item').removeClass('active border rounded');
   $('#instructorsTab').addClass('active border rounded');
+
+  // Calculate avg rating
+  var courseRating = <%- JSON.stringify(reviews) %>;
+  var totalRating = 0;
+
+  for (i in courseRating) {
+    totalRating += courseRating[i].rating;
+  }
+  var avgRating = totalRating / courseRating.length;
+
+  $('.reviewRating').each(function(i) {
+    if (i < avgRating) {
+      $(this).addClass('checked');
+    }
+  })
 </script>
 
 <script>

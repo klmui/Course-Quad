@@ -70,8 +70,23 @@ router.get('/:id', authController.isLoggedIn, function(req, res) {
         if (error) {
           console.log('Error in query');
         } else {
-          console.log(rows2);
-          res.render('instructors/instructor', {'user': req.user, 'coursesByInstructor': rows, 'ratingOverTime': rows2});
+          var query3 = `
+            select i.instructorID as instructorID, i.name as instructor, r.date as date,
+            r.stars as rating, r.difficulty as difficulty, r.review as review, r.comment, r.username
+            from Instructor i
+            left join InstructorRating r
+            on i.instructorID = r.instructor_id
+            WHERE r.comment is not null and i.instructorID=${req.params.id}
+            order by i.instructorID;
+          `;
+          connection.query(query3, function(error, rows3, fields) {
+            if (error) {
+              console.log('Error in query');
+            } else {
+              console.log(rows3);
+              res.render('instructors/instructor', {'user': req.user, 'coursesByInstructor': rows, 'ratingOverTime': rows2, 'reviews': rows3});
+            }
+          });          
         }
       });
     }

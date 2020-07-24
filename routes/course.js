@@ -82,7 +82,6 @@ router.get("/:courseID", authController.isLoggedIn, (req, res) => {
             if (error) {
               console.log("error in query");
             } else {
-              console.log(rows2);
               res.render('course', {'courseInfo': rows, 'user': req.user, 'courseRating': rows2, "courseReviews": rows3});
             }
           });
