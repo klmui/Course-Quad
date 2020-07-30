@@ -28,9 +28,15 @@
         <div class="row">
           <div class="col-lg-6"></div>
           <div class="col-lg-6">
-            <button class="btn btn-info mb-2" title="Save course" style="margin: 0 auto; display: block;">
-              <i class="fas fa-save"></i>
-            </button>
+            <% if (typeof user != "undefined") { %>
+              <button class="btn btn-info mb-2" title="Save course" style="margin: 0 auto; display: block;" id="saveBtn">
+                <i class="fas fa-save"></i>
+              </button>
+            <% } else { %>
+              <button class="btn btn-info mb-2" title="Save course" style="margin: 0 auto; display: block;" id="saveBtn" disabled>
+                <i class="fas fa-save"></i>
+              </button>
+            <% } %>
           </div>
         </div>
 
@@ -690,6 +696,27 @@
     });
 
     $('#difficultySelect').val(difficulty);
+  });
+
+  // save a course
+  $('#saveBtn').on('click', function(e) {
+    e.preventDefault();
+    $('#loader').show();
+    $.ajax({
+      url: "/courses/<%=courseInfo[0].courseID%>/save",
+      type: "POST",
+      data: {
+        'id': "<%=courseInfo[0].courseID%>",
+        'username': "<%- user.username %>"
+      },
+      success: function(result) {
+        $('#loader').hide();
+      },
+      error: function(error) {
+        $('#loader').hide();
+        console.log(error);
+      }
+    });
   });
   </script>
 

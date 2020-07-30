@@ -146,4 +146,20 @@ router.put('/:id/comment', function(req, res) {
   });
 });
 
+router.post('/:id/save', function(req, res) {
+  var query = `
+    INSERT INTO savedCourses(username, course_id) VALUES ?
+  `;
+  var values = [[req.body.username, req.params.id]];
+
+  connection.query(query, [values], function(err, result) {
+    if (err) {
+      console.log(err);
+      console.log("error in query");
+    } else {
+      res.send("successfully added course");
+    }
+  });
+});
+
 module.exports = router;

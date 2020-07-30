@@ -183,7 +183,7 @@ router.post('/signup', function(req, res){
           console.log(err);
           console.log("Error signing up. Duplicate username.");
           res.status(401).render('index', {
-            message: 'Error signing up. Username is already taken.',
+            'message': 'Error signing up. Username is already taken.',
             'courses': rows
           });
         } else {

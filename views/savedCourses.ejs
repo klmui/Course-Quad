@@ -12,18 +12,12 @@
         
         <div class="card-body">
           <ul class="savedCourseList" id="savedCourseList" style="list-style-type: none; border: 1px solid lightgrey; border-radius: 5px; padding: 10px;">
-            <li class="mb-4 ml-4 border-bottom draggable">
-              <i class="fa fa-arrows-v arrows fa-lg"></i>
-              <a href="#">Intro to Bioinformatics</a>
-            </li>
-            <li class="mb-4 ml-4 border-bottom draggable">
-              <i class="fa fa-arrows-v arrows fa-lg"></i>
-              <a href="#">Intro to Databases</a>
-            </li>
-            <li class="mb-4 ml-4 border-bottom draggable">
-              <i class="fa fa-arrows-v arrows fa-lg"></i>
-              <a href="#">Clap for Credit</a>
-            </li>
+            <% for (var i = 0; i < savedCourses.length; i ++) { %>
+              <li class="mb-4 ml-4 border-bottom draggable">
+                <i class="fa fa-arrows-v arrows fa-lg"></i>
+                <a href="<%=savedCourses[i].course_id%>"><%=savedCourses[i].name%></a>
+              </li>
+            <% } %>
           </ul>
         </div>
 
