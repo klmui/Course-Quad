@@ -699,25 +699,27 @@
   });
 
   // save a course
-  $('#saveBtn').on('click', function(e) {
-    e.preventDefault();
-    $('#loader').show();
-    $.ajax({
-      url: "/courses/<%=courseInfo[0].courseID%>/save",
-      type: "POST",
-      data: {
-        'id': "<%=courseInfo[0].courseID%>",
-        'username': "<%- user.username %>"
-      },
-      success: function(result) {
-        $('#loader').hide();
-      },
-      error: function(error) {
-        $('#loader').hide();
-        console.log(error);
-      }
+  <% if (typeof user != "undefined") { %>
+    $('#saveBtn').on('click', function(e) {
+      e.preventDefault();
+      $('#loader').show();
+      $.ajax({
+        url: "/courses/<%=courseInfo[0].courseID%>/save",
+        type: "POST",
+        data: {
+          'id': "<%=courseInfo[0].courseID%>",
+          'username': "<%- user.username %>"
+        },
+        success: function(result) {
+          $('#loader').hide();
+        },
+        error: function(error) {
+          $('#loader').hide();
+          console.log(error);
+        }
+      });
     });
-  });
+  <% } %>
   </script>
 
   <%- include('./partials/footer'); %>
