@@ -1,6 +1,10 @@
 # Course-Quad
 Course Quad streamlines the process of finding the right courses and succeeding within those courses. Explore course-grade distributions, course reviews, instructor reviews, study groups, and fun statistics! This is expected to be done by the end of July.
 
+[Demo video](https://www.youtube.com/watch?v=6oLqH9y23_M&t=1s)
+
+[Detailed database report](https://docs.google.com/document/d/10ohlUAp3AQbXgj7Qc3UHxVAzypuVViGyvLHKnQRjVqU/edit?usp=sharing)
+
 ## Team Members
 - Kenneth Mui, GitHub: https://github.com/klmui
 - Saniya Khullar, GitHub: https://github.com/khullarama
