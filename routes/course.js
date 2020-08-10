@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var authController = require('../controllers/auth');
+var authController = require('../controller/auth');
 
 // show a particular course
 router.get("/:courseID", authController.isLoggedIn, (req, res) => {
