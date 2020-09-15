@@ -1,6 +1,6 @@
 var express = require("express");
 var router  = express.Router();
-var authController = require('../controllers/auth');
+var authController = require('../controller/auth');
 
 // root route - render home page
 router.get('/', authController.isLoggedIn, function(req, res) {

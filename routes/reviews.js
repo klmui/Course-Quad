@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var authController = require('../controllers/auth');
+var authController = require('../controller/auth');
 
 // show all course reviews from user
 router.get('/courseReviews', authController.isLoggedIn, function(req, res) {
